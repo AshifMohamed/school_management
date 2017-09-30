@@ -25,7 +25,7 @@ public class DBConn {
         * declare the connection string and define it as null so you can define the correct value later 
         *
          */
-        String databaseURL = "jdbc:mysql://localhost:3306/school_management";
+        String databaseURL = "jdbc:mysql://localhost:3307/school_management";
         String user = "root";
         String password = "";
         Connection conn = null;
