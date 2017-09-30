@@ -34,6 +34,15 @@ public class StudentManagementDBUtils {
             System.out.println(e.getMessage());
         }
     }
+    
+     public void saveApplicant(String applicantName, String date, String address, int contactNo, String grade,int marks,String hallName ) {
+        try (Connection dbConnection = DBConn.myConn()) {
+            dbConnection.createStatement().executeUpdate("insert into applicant values('" + getApplicantId()+  "','" + applicantName + "','" + address + "','" + marks + "','" + hallName + "','" + grade + "','" + contactNo + "')");
+            System.out.println("Record Added Successfully");
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
 
     public static String getStudentId() {
         String studentId = null;
@@ -44,6 +53,22 @@ public class StudentManagementDBUtils {
                 id = rs.getString("idstudent");
             }
             studentId = "ST_" + String.format("%05d", Integer.parseInt(id.split("_")[1]) + 1);
+            return studentId;
+        } catch (SQLException e) {
+
+        }
+        return studentId;
+    }
+    
+    public static String getApplicantId() {
+        String studentId = null;
+        String id = null;
+        try (Connection dbConnection = DBConn.myConn()) {
+            ResultSet rs = dbConnection.createStatement().executeQuery("SELECT applicantId FROM applicant ORDER BY idstudent DESC LIMIT 1");
+            while (rs.next()) {
+                id = rs.getString("applicantId");
+            }
+            studentId = "AP_" + String.format("%05d", Integer.parseInt(id.split("_")[1]) + 1);
             return studentId;
         } catch (SQLException e) {
 
