@@ -23,45 +23,44 @@ public class ManageStudent_UI extends javax.swing.JFrame {
     /**
      * Creates new form ManageStudent_UI
      */
-    private  StudentManagementDBUtils studentManagementDBUtils = new StudentManagementDBUtils();
-    private  DefaultTableModel defaultTableModel ;
-    UpdateStudent_UI updateStudent_UI= new UpdateStudent_UI();
-    private  ResultSet rs;
+    private StudentManagementDBUtils studentManagementDBUtils = new StudentManagementDBUtils();
+    private DefaultTableModel defaultTableModel;
+    UpdateStudent_UI updateStudent_UI = new UpdateStudent_UI();
+    private ResultSet rs;
+
     public ManageStudent_UI() {
-       initComponents();
-       loadAllStudents();
+        initComponents();
+        loadAllStudents();
     }
 
-    
-    public void loadAllStudents(){
-        
-       try (Connection dbConnection = DBConn.myConn()) {
+    public void loadAllStudents() {
+
+        try (Connection dbConnection = DBConn.myConn()) {
             rs = dbConnection.createStatement().executeQuery("select * from student");
-            while(rs.next()){
-                Object[] content = {rs.getString("idstudent"),rs.getString("dateofregistration"),rs.getString("firstname"),rs.getString("middlename"),rs.getString("lastname"),rs.getString("dateofbirth"),rs.getString("address"),rs.getString("gender"),rs.getString("nationality"),rs.getString("contactNo"),rs.getString("mailid"),rs.getString("addmissiongrade"),rs.getString("status")};
-                defaultTableModel= (DefaultTableModel)studentTable.getModel();
+            while (rs.next()) {
+                Object[] content = {rs.getString("idstudent"), rs.getString("dateofregistration"), rs.getString("firstname"), rs.getString("middlename"), rs.getString("lastname"), rs.getString("dateofbirth"), rs.getString("address"), rs.getString("gender"), rs.getString("nationality"), rs.getString("contactNo"), rs.getString("mailid"), rs.getString("addmissiongrade"), rs.getString("status")};
+                defaultTableModel = (DefaultTableModel) studentTable.getModel();
                 defaultTableModel.addRow(content);
             }
-           
+
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-       
-        
+
     }
-    
-    
-    public void getStudentById(String id){
+
+    public void getStudentById(String id) {
         TableRowSorter<DefaultTableModel> tableRowSorterById = new TableRowSorter<DefaultTableModel>(defaultTableModel);
         studentTable.setRowSorter(tableRowSorterById);
         tableRowSorterById.setRowFilter(RowFilter.regexFilter(id, 0));
-     }
-    
-    public void getStudentByName(String name){
+    }
+
+    public void getStudentByName(String name) {
         TableRowSorter<DefaultTableModel> tableRowSorterByName = new TableRowSorter<DefaultTableModel>(defaultTableModel);
         studentTable.setRowSorter(tableRowSorterByName);
         tableRowSorterByName.setRowFilter(RowFilter.regexFilter(name, 2));
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -247,19 +246,19 @@ public class ManageStudent_UI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jTextField1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyTyped
-       
+
     }//GEN-LAST:event_jTextField1KeyTyped
 
     private void jTextField2KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField2KeyTyped
-        
+
     }//GEN-LAST:event_jTextField2KeyTyped
 
     private void jTextField1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyReleased
-         getStudentById(jTextField1.getText().toString());
+        getStudentById(jTextField1.getText().toString());
     }//GEN-LAST:event_jTextField1KeyReleased
 
     private void jTextField2KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField2KeyReleased
-       getStudentByName(jTextField2.getText());
+        getStudentByName(jTextField2.getText());
     }//GEN-LAST:event_jTextField2KeyReleased
 
     private void studentTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_studentTableMouseClicked
@@ -268,7 +267,7 @@ public class ManageStudent_UI extends javax.swing.JFrame {
         updateStudent_UI.setVisible(true);
         updateStudent_UI.pack();
         updateStudent_UI.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        
+
         updateStudent_UI.updateFirstNameText.setText(defaultTableModel.getValueAt(index, 2).toString());
         updateStudent_UI.updateMiddletNameText.setText(defaultTableModel.getValueAt(index, 3).toString());
         updateStudent_UI.updateLasttNameText.setText(defaultTableModel.getValueAt(index, 4).toString());
@@ -278,16 +277,15 @@ public class ManageStudent_UI extends javax.swing.JFrame {
         updateStudent_UI.updateStatusText.setText(defaultTableModel.getValueAt(index, 12).toString());
         updateStudent_UI.updateEmailText.setText(defaultTableModel.getValueAt(index, 10).toString());
         updateStudent_UI.studentIdLabel.setText(defaultTableModel.getValueAt(index, 0).toString());
-        
-        
-        
+
+
     }//GEN-LAST:event_studentTableMouseClicked
 
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        
+
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
