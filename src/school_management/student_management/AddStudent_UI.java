@@ -343,8 +343,6 @@ public class AddStudent_UI extends javax.swing.JFrame {
 
         jTextField7.setText("jTextField7");
 
-        jTextField8.setText("jTextField7");
-
         jTextField9.setText("jTextField7");
 
         jTextField10.setText("jTextField7");
