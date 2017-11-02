@@ -20,6 +20,7 @@ import school_management.DBConn;
  */
 public class FeesPayment extends javax.swing.JFrame {
 
+    private StudentManagementValidation studentManagementValidation = new StudentManagementValidation();
     private StudentManagementDBUtils studentManagementDBUtils = new StudentManagementDBUtils();
     private DefaultTableModel defaultTableModel;
     private ResultSet rs;
@@ -303,7 +304,7 @@ public class FeesPayment extends javax.swing.JFrame {
     }//GEN-LAST:event_studentTableMouseClicked
 
     private void jTextField1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyReleased
-        getStudentById(jTextField1.getText().toString());
+        getStudentById(jTextField1.getText());
     }//GEN-LAST:event_jTextField1KeyReleased
 
     private void jTextField1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyTyped
@@ -323,28 +324,36 @@ public class FeesPayment extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1MouseClicked
 
     private void jButton1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MousePressed
-        
+
     }//GEN-LAST:event_jButton1MousePressed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        float value =0;
-        if(Float.parseFloat(jTextField3.getText())>studentManagementDBUtils.getAmountForTerm(jLabel6.getText())){
-            value=studentManagementDBUtils.getAmountForTerm(jLabel6.getText());
-        }
-        else{
-            value=Float.parseFloat(jTextField3.getText());
-        }
-        if( studentManagementDBUtils.addIntialPayment(jLabel6.getText(), Float.toString(value), jComboBox1.getSelectedItem().toString())){
-            JOptionPane.showMessageDialog(null, "Payment Added sucesfully", "Save",
+        if (studentManagementValidation.checkEmpty(jTextField3.getText())) {
+            JOptionPane.showMessageDialog(null, "Amount Can not be empty", "ok",
                     JOptionPane.INFORMATION_MESSAGE);
+        } else if (!studentManagementValidation.isNumeric(jTextField3.getText())) {
+            JOptionPane.showMessageDialog(null, "Amount Must be a Numeric value", "ok",
+                    JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            float value = 0;
+            if (Float.parseFloat(jTextField3.getText()) > studentManagementDBUtils.getAmountForTerm(jLabel6.getText())) {
+                value = studentManagementDBUtils.getAmountForTerm(jLabel6.getText());
+            } else {
+                value = Float.parseFloat(jTextField3.getText());
+            }
+            if (studentManagementDBUtils.addIntialPayment(jLabel6.getText(), Float.toString(value), jComboBox1.getSelectedItem().toString())) {
+                JOptionPane.showMessageDialog(null, "Payment Added sucesfully", "Save",
+                        JOptionPane.INFORMATION_MESSAGE);
+            }
         }
-       
+
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         StudentAdministration studentAdministration = new StudentAdministration();
-       this.setVisible(false);
-       studentAdministration.setVisible(true);
+        this.setVisible(false);
+        studentAdministration.setVisible(true);
     }//GEN-LAST:event_jButton5ActionPerformed
 
     /**

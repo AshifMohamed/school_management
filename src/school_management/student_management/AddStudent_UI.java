@@ -6,37 +6,38 @@
  */
 package school_management.student_management;
 
-
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import javax.swing.JOptionPane;
-
 
 /**
  *
  * @author Neruppuda
  */
 public class AddStudent_UI extends javax.swing.JFrame {
+
+    StudentManagementValidation studentManagementValidation = new StudentManagementValidation();
     DateFormat oDateFormat = new SimpleDateFormat("yyyy-MM-dd");
     private StudentManagementDBUtils studentManagementDBUtils = new StudentManagementDBUtils();
-    private String firstName=null;
+    private String firstName = null;
     private String middleName = null;
-    private String lastName=null;
-    private String dateOfBirth=null;
-    private String address=null;
-    private String gender=null;
-    private String nationality=null;
-    private String contactNumber=null;
-    private String currentgrade=null;
-    private String eMail=null;
-    private String applicantId=null;
-    
-   private String studentId=null;
-   private String gName=null;
-   private String occupation = null;
-   private String gAddress=null;
-   private String gContact=null;
-   private String gEmail=null;
+    private String lastName = null;
+    private String dateOfBirth = null;
+    private String address = null;
+    private String gender = null;
+    private String nationality = null;
+    private String contactNumber = null;
+    private String currentgrade = null;
+    private String eMail = null;
+    private String applicantId = null;
+
+    private String studentId = null;
+    private String gName = null;
+    private String occupation = null;
+    private String gAddress = null;
+    private String gContact = null;
+    private String gEmail = null;
+
     /**
      * Creates new form AddStudent_UI
      */
@@ -529,20 +530,53 @@ public class AddStudent_UI extends javax.swing.JFrame {
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
 
-        firstName = jTextField1.getText();
-        lastName = jTextField3.getText();
-        middleName = jTextField2.getText();
-        dateOfBirth = oDateFormat.format(jXDatePicker1.getDate());
-        address = jTextArea1.getText();
-        nationality = jTextField5.getText();
-        currentgrade = jComboBox1.getSelectedItem().toString();
-        gender = buttonGroup1.getSelection().getActionCommand();
-        eMail = jTextField6.getText();
-        contactNumber =jTextField4.getText();
-        applicantId=jTextField12.getText();
-        studentManagementDBUtils.saveStudent(firstName, lastName, middleName, dateOfBirth, address, nationality, gender, eMail, contactNumber,applicantId,Integer.parseInt(currentgrade));
-        JOptionPane.showMessageDialog(null, "Added new record Successfully ", "Save",
-        JOptionPane.INFORMATION_MESSAGE);
+        if (studentManagementValidation.checkEmpty(jTextField1.getText())) {
+            JOptionPane.showMessageDialog(null, "First Name Cannot be empty", "ok",
+                    JOptionPane.INFORMATION_MESSAGE);
+        } else if (studentManagementValidation.validateString(jTextField1.getText())) {
+            JOptionPane.showMessageDialog(null, "First Name Cannot contain numeric values", "ok",
+                    JOptionPane.INFORMATION_MESSAGE);
+        } else if (studentManagementValidation.checkEmpty(jTextField3.getText())) {
+            JOptionPane.showMessageDialog(null, "Last Name Cannot be empty", "ok",
+                    JOptionPane.INFORMATION_MESSAGE);
+        } else if (studentManagementValidation.validateString(jTextField3.getText())) {
+            JOptionPane.showMessageDialog(null, "Last Name Cannot contain numeric values", "ok",
+                    JOptionPane.INFORMATION_MESSAGE);
+        } else if (jXDatePicker1.getDate() == null) {
+            JOptionPane.showMessageDialog(null, "Date of birth can not be empty", "ok",
+                    JOptionPane.INFORMATION_MESSAGE);
+        } else if (!studentManagementValidation.validateDate(jXDatePicker1.getDate())) {
+            JOptionPane.showMessageDialog(null, "Date of birth must be a past date", "ok",
+                    JOptionPane.INFORMATION_MESSAGE);
+        } else if (studentManagementValidation.checkEmpty(jTextArea1.getText())) {
+            JOptionPane.showMessageDialog(null, "Address can not be empty", "ok",
+                    JOptionPane.INFORMATION_MESSAGE);
+        } else if (studentManagementValidation.validateString(jTextField5.getText())) {
+            JOptionPane.showMessageDialog(null, "Nationality can not contain numeric values", "ok",
+                    JOptionPane.INFORMATION_MESSAGE);
+        } else if (studentManagementValidation.checkEmpty(jTextField4.getText())) {
+            JOptionPane.showMessageDialog(null, "Contact Number can not be empty", "ok",
+                    JOptionPane.INFORMATION_MESSAGE);
+        } else if (studentManagementValidation.validateContactNumber(jTextField4.getText())) {
+            JOptionPane.showMessageDialog(null, "Wrong format of Contact Number", "ok",
+                    JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            firstName = jTextField1.getText();
+            lastName = jTextField3.getText();
+            middleName = jTextField2.getText();
+            dateOfBirth = oDateFormat.format(jXDatePicker1.getDate());
+            address = jTextArea1.getText();
+            nationality = jTextField5.getText();
+            currentgrade = jComboBox1.getSelectedItem().toString();
+            gender = buttonGroup1.getSelection().getActionCommand();
+            eMail = jTextField6.getText();
+            contactNumber = jTextField4.getText();
+            applicantId = jTextField12.getText();
+            studentManagementDBUtils.saveStudent(firstName, lastName, middleName, dateOfBirth, address, nationality, gender, eMail, contactNumber, applicantId, Integer.parseInt(currentgrade));
+            JOptionPane.showMessageDialog(null, "New Student record addedSuccessfully ", "Save",
+                    JOptionPane.INFORMATION_MESSAGE);
+        }
+
     }//GEN-LAST:event_jButton1MouseClicked
 
     private void jTextField12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField12ActionPerformed
@@ -550,26 +584,48 @@ public class AddStudent_UI extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField12ActionPerformed
 
     private void jButton4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton4MouseClicked
-       studentId=jTextField8.getText();
-       gName=jTextField9.getText();
-       occupation=jTextField11.getText();
-       gAddress=jTextArea2.getText();
-       gContact=jTextField7.getText();
-       gEmail=jTextField10.getText();
-       
+
+        if (studentManagementValidation.checkEmpty(jTextField8.getText())) {
+            JOptionPane.showMessageDialog(null, "Student ID Cannot be empty", "ok",
+                    JOptionPane.INFORMATION_MESSAGE);
+        } else if (studentManagementValidation.checkEmpty(jTextField9.getText())) {
+            JOptionPane.showMessageDialog(null, "Last Name Cannot be empty", "ok",
+                    JOptionPane.INFORMATION_MESSAGE);
+        } else if (studentManagementValidation.validateString(jTextField9.getText())) {
+            JOptionPane.showMessageDialog(null, "Last Name Cannot contain numeric values", "ok",
+                    JOptionPane.INFORMATION_MESSAGE);
+        } else if (studentManagementValidation.checkEmpty(jTextArea2.getText()))
+        {
+            JOptionPane.showMessageDialog(null, "Address can not be empty", "ok",
+                    JOptionPane.INFORMATION_MESSAGE);
+        }else if (studentManagementValidation.checkEmpty(jTextField7.getText())) {
+            JOptionPane.showMessageDialog(null, "Contact Number can not be empty", "ok",
+                    JOptionPane.INFORMATION_MESSAGE);
+        } else if (studentManagementValidation.validateContactNumber(jTextField7.getText())) {
+            JOptionPane.showMessageDialog(null, "Wrong format of Contact Number", "ok",
+                    JOptionPane.INFORMATION_MESSAGE);
+        }
+        else{
+        studentId = jTextField8.getText();
+        gName = jTextField9.getText();
+        occupation = jTextField11.getText();
+        gAddress = jTextArea2.getText();
+        gContact = jTextField7.getText();
+        gEmail = jTextField10.getText();
+
         if (studentManagementDBUtils.addparentDetail(studentId, gName, occupation, gAddress, gContact, gEmail)) {
             JOptionPane.showMessageDialog(null, "Added new record Successfully ", "Save",
                     JOptionPane.INFORMATION_MESSAGE);
+        }  
         }
+
     }//GEN-LAST:event_jButton4MouseClicked
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-       StudentAdministration studentAdministration = new StudentAdministration();
-       this.setVisible(false);
-       studentAdministration.setVisible(true);
+        StudentAdministration studentAdministration = new StudentAdministration();
+        this.setVisible(false);
+        studentAdministration.setVisible(true);
     }//GEN-LAST:event_jButton5ActionPerformed
-
-    
 
     /**
      * @param args the command line arguments
