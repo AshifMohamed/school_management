@@ -29,6 +29,7 @@ public class Event_Admin extends javax.swing.JFrame {
      * Creates new form Event_Admin
      */
     ResultSet rs = null;
+    DateFormat oDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
     public Event_Admin() {
         initComponents();
@@ -85,15 +86,16 @@ public class Event_Admin extends javax.swing.JFrame {
         jTextField_name = new javax.swing.JTextField();
         jScrollPane3 = new javax.swing.JScrollPane();
         jTextArea_description = new javax.swing.JTextArea();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        jComboBox_venue = new javax.swing.JComboBox<>();
         jTextField_organizer = new javax.swing.JTextField();
         jXDatePicker_start = new org.jdesktop.swingx.JXDatePicker();
         Date sdate = new Date(); SpinnerDateModel spinnerStartDate = new SpinnerDateModel(sdate, null, null, Calendar.HOUR_OF_DAY);
         jSpinner_start = new javax.swing.JSpinner(spinnerStartDate);
-        Date date = new Date(); SpinnerDateModel spinnerDate = new SpinnerDateModel(date, null, null, Calendar.HOUR_OF_DAY);
-        javax.swing.JSpinner jSpinner_end = new javax.swing.JSpinner(spinnerDate);
         jXDatePicker_end = new org.jdesktop.swingx.JXDatePicker();
-        jButton1 = new javax.swing.JButton();
+        jButton_schedule = new javax.swing.JButton();
+        jButton_clear = new javax.swing.JButton();
+        Date edate = new Date(); SpinnerDateModel spinnerEndDate = new SpinnerDateModel(edate, null, null, Calendar.HOUR_OF_DAY);
+        jSpinner_end = new javax.swing.JSpinner(spinnerEndDate);
         jPanel4 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -335,18 +337,25 @@ public class Event_Admin extends javax.swing.JFrame {
         jTextArea_description.setRows(5);
         jScrollPane3.setViewportView(jTextArea_description);
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Main Hall", "Secondary Hall" }));
+        jComboBox_venue.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Main Hall", "Secondary Hall" }));
 
         JSpinner.DateEditor startDateEditor = new JSpinner.DateEditor(jSpinner_start, "HH:mm"); jSpinner_start.setEditor(startDateEditor);
 
-        JSpinner.DateEditor dateEditor = new JSpinner.DateEditor(jSpinner_end, "HH:mm"); jSpinner_end.setEditor(dateEditor);
-
-        jButton1.setText("jButton1");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        jButton_schedule.setText("SCHEDULE");
+        jButton_schedule.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                jButton_scheduleActionPerformed(evt);
             }
         });
+
+        jButton_clear.setText("CLEAR");
+        jButton_clear.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_clearActionPerformed(evt);
+            }
+        });
+
+        JSpinner.DateEditor endDateEditor = new JSpinner.DateEditor(jSpinner_end, "HH:mm"); jSpinner_end.setEditor(endDateEditor);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -364,25 +373,23 @@ public class Event_Admin extends javax.swing.JFrame {
                     .addComponent(jLabel9)
                     .addComponent(jLabel10))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jSpinner_end, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jSpinner_start)
-                        .addComponent(jXDatePicker_start, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jTextField_organizer)
-                        .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jScrollPane3)
-                        .addComponent(jTextField_name)
-                        .addComponent(jXDatePicker_end, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jSpinner_start)
+                    .addComponent(jXDatePicker_start, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jTextField_organizer)
+                    .addComponent(jComboBox_venue, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane3)
+                    .addComponent(jTextField_name)
+                    .addComponent(jXDatePicker_end, javax.swing.GroupLayout.DEFAULT_SIZE, 275, Short.MAX_VALUE)
+                    .addComponent(jSpinner_end))
+                .addGap(54, 54, 54)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(54, 54, 54)
-                        .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1)
-                        .addGap(119, 119, 119))))
+                        .addComponent(jButton_schedule, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton_clear, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -391,45 +398,47 @@ public class Event_Admin extends javax.swing.JFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(jPanel3Layout.createSequentialGroup()
-                                        .addComponent(jLabel3)
-                                        .addGap(40, 40, 40)
-                                        .addComponent(jLabel4)
-                                        .addGap(93, 93, 93)
-                                        .addComponent(jLabel5)
-                                        .addGap(40, 40, 40)
-                                        .addComponent(jLabel6)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel7))
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addComponent(jTextField_name, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jTextField_organizer, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jXDatePicker_start, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(13, 13, 13)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel8)
-                            .addComponent(jSpinner_start, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jLabel3)
+                                .addGap(40, 40, 40)
+                                .addComponent(jLabel4)
+                                .addGap(93, 93, 93)
+                                .addComponent(jLabel5)
+                                .addGap(40, 40, 40)
+                                .addComponent(jLabel6)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel7))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jTextField_name, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel9)
-                            .addComponent(jXDatePicker_end, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                        .addComponent(jButton1)
-                        .addGap(53, 53, 53)))
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jComboBox_venue, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jTextField_organizer, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jXDatePicker_start, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(13, 13, 13)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel10)
-                    .addComponent(jSpinner_end, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(125, Short.MAX_VALUE))
+                    .addComponent(jLabel8)
+                    .addComponent(jSpinner_start, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel9)
+                    .addComponent(jXDatePicker_end, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(11, 11, 11)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jSpinner_end, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 54, Short.MAX_VALUE)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jButton_schedule, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton_clear, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(19, 19, 19))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jLabel10)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
 
         jTabbedPane_event.addTab("Create Event", jPanel3);
@@ -465,12 +474,23 @@ public class Event_Admin extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void jButton_scheduleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_scheduleActionPerformed
         // TODO add your handling code here:
-//        DateFormat oDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-//        String temp = oDateFormat.format(jXDatePicker_start.getDate());
-        JOptionPane.showMessageDialog(null,"Hi");
-    }//GEN-LAST:event_jButton1ActionPerformed
+        String pname = jTextField_name.getText();
+        String pdescription = jTextArea_description.getText();
+        String pvenue = jComboBox_venue.getSelectedItem().toString();
+        String porganizer = jTextField_organizer.getText();
+        String pstartDate = oDateFormat.format(jXDatePicker_start.getDate());
+        String pstartTime = jSpinner_start.getValue().toString().split(" ")[3].substring(0,5);
+        String pendDate = oDateFormat.format(jXDatePicker_end.getDate());
+        String pendTime = jSpinner_end.getValue().toString().split(" ")[3].substring(0,5);
+        
+            System.out.println(pendTime);
+    }//GEN-LAST:event_jButton_scheduleActionPerformed
+
+    private void jButton_clearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_clearActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton_clearActionPerformed
 
     /**
      * @param args the command line arguments
@@ -508,8 +528,9 @@ public class Event_Admin extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JButton jButton_clear;
+    private javax.swing.JButton jButton_schedule;
+    private javax.swing.JComboBox<String> jComboBox_venue;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -537,6 +558,7 @@ public class Event_Admin extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JSpinner jSpinner_end;
     private javax.swing.JSpinner jSpinner_start;
     private javax.swing.JTabbedPane jTabbedPane_event;
     private javax.swing.JTable jTable_all;
