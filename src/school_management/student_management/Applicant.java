@@ -21,6 +21,7 @@ public class Applicant extends javax.swing.JFrame {
      */
     DateFormat oDateFormat = new SimpleDateFormat("yyyy-MM-dd");
     private StudentManagementDBUtils studentManagementDBUtils = new StudentManagementDBUtils();
+    private StudentManagementValidation studentManagementValidation = new StudentManagementValidation();
     private String applicantName = null;
     private int marks;
     private String hallName = null;
@@ -251,18 +252,42 @@ public class Applicant extends javax.swing.JFrame {
     }//GEN-LAST:event_jComboBox2ActionPerformed
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
-        contactno=jTextField2.getText();
-        applicantName = jTextField2.getText();
-        appliedDate = oDateFormat.format(jXDatePicker1.getDate());
-        marks = Integer.parseInt(jTextField4.getText());
-        appliedGrade = jComboBox1.getSelectedItem().toString();
-        hallName = jComboBox2.getSelectedItem().toString();
-        examTime = jComboBox4.getSelectedItem().toString();
-        applicantStatus = jComboBox3.getSelectedItem().toString();
-        if (studentManagementDBUtils.saveApplicant(applicantName, appliedDate, contactno, appliedGrade, marks, hallName, examTime, applicantStatus)) {
-            JOptionPane.showMessageDialog(null, "Added new record Successfully ", "Save",
+        if (studentManagementValidation.checkEmpty(jTextField2.getText())) {
+            JOptionPane.showMessageDialog(null, "Applicant Id can not be Empty", "Alert",
                     JOptionPane.INFORMATION_MESSAGE);
+        } else if (studentManagementValidation.validateApplicantId(jTextField2.getText())) {
+            JOptionPane.showMessageDialog(null, "First Name Cannot contain numeric values", "Alert",
+                    JOptionPane.INFORMATION_MESSAGE);
+        } else if (jXDatePicker1.getDate() == null) {
+            JOptionPane.showMessageDialog(null, "Applied can not be empty", "Alert",
+                    JOptionPane.INFORMATION_MESSAGE);
+        } else if (studentManagementValidation.checkEmpty(jTextField3.getText())) {
+            JOptionPane.showMessageDialog(null, "Contact Number can not be empty", "Alert",
+                    JOptionPane.INFORMATION_MESSAGE);
+        } else if (studentManagementValidation.validateContactNumber(jTextField3.getText())) {
+            JOptionPane.showMessageDialog(null, "Wrong format of Contact Number", "Alert",
+                    JOptionPane.INFORMATION_MESSAGE);
+        } else if (studentManagementValidation.checkEmpty(jTextField4.getText())) {
+            JOptionPane.showMessageDialog(null, "Placement Exam Marks can not be empty", "Alert",
+                    JOptionPane.INFORMATION_MESSAGE);
+        } else if (!studentManagementValidation.validateString(jTextField4.getText())) {
+            JOptionPane.showMessageDialog(null, "Marks shoul be a numeric value", "Alert",
+                    JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            contactno = jTextField2.getText();
+            applicantName = jTextField2.getText();
+            appliedDate = oDateFormat.format(jXDatePicker1.getDate());
+            marks = Integer.parseInt(jTextField4.getText());
+            appliedGrade = jComboBox1.getSelectedItem().toString();
+            hallName = jComboBox2.getSelectedItem().toString();
+            examTime = jComboBox4.getSelectedItem().toString();
+            applicantStatus = jComboBox3.getSelectedItem().toString();
+            if (studentManagementDBUtils.saveApplicant(applicantName, appliedDate, contactno, appliedGrade, marks, hallName, examTime, applicantStatus)) {
+                JOptionPane.showMessageDialog(null, "Added new record Successfully ", "Save",
+                        JOptionPane.INFORMATION_MESSAGE);
+            }
         }
+
 
     }//GEN-LAST:event_jButton1MouseClicked
 

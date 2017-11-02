@@ -328,11 +328,12 @@ public class FeesPayment extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1MousePressed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+       
         if (studentManagementValidation.checkEmpty(jTextField3.getText())) {
             JOptionPane.showMessageDialog(null, "Amount Can not be empty", "ok",
                     JOptionPane.INFORMATION_MESSAGE);
-        } else if (!studentManagementValidation.isNumeric(jTextField3.getText())) {
-            JOptionPane.showMessageDialog(null, "Amount Must be a Numeric value", "ok",
+        } else if (!studentManagementValidation.validateAmount(jTextField3.getText())) {
+            JOptionPane.showMessageDialog(null, "Please provide a valid amount", "ok",
                     JOptionPane.INFORMATION_MESSAGE);
         } else {
             float value = 0;

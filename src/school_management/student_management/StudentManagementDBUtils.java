@@ -75,7 +75,7 @@ public class StudentManagementDBUtils {
             dbConnection.createStatement().execute("update disciplinarydetail set description ='" + text + "'  where studentId='"+studentId+"'");
             saved=true;
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+           saved=false;
         }
         return saved; 
     }
@@ -172,6 +172,22 @@ public class StudentManagementDBUtils {
             ResultSet rs = dbConnection.createStatement().executeQuery("select paidAmount from  payment  where idpayment='"+paymenId+"'");
             while (rs.next()) {
                 amount = Float.parseFloat(rs.getString("paidAmount"));
+            }
+            
+            return amount;
+        } catch (SQLException e) {
+
+        }
+        return amount;
+    }
+    
+    public static float getRemainingAmount(String paymenId){
+        float amount = 0;
+        
+        try (Connection dbConnection = DBConn.myConn()) {
+            ResultSet rs = dbConnection.createStatement().executeQuery("select remainingAmount from  payment  where idpayment='"+paymenId+"'");
+            while (rs.next()) {
+                amount = Float.parseFloat(rs.getString("remainingAmount"));
             }
             
             return amount;
