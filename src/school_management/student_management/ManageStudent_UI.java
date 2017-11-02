@@ -297,7 +297,7 @@ public class ManageStudent_UI extends javax.swing.JFrame {
         updateStudent_UI.updateAddressText.setText(defaultTableModel.getValueAt(index, 6).toString());
         updateStudent_UI.updateContactNumberText.setText(defaultTableModel.getValueAt(index, 9).toString());
         updateStudent_UI.updateNationalityText.setText(defaultTableModel.getValueAt(index, 8).toString());
-        updateStudent_UI.updateStatusText.setText(defaultTableModel.getValueAt(index, 12).toString());
+        updateStudent_UI.jComboBox1.setSelectedItem(defaultTableModel.getValueAt(index, 12).toString());
         updateStudent_UI.updateEmailText.setText(defaultTableModel.getValueAt(index, 10).toString());
         updateStudent_UI.studentIdLabel.setText(defaultTableModel.getValueAt(index, 0).toString());
 

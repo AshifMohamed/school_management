@@ -13,7 +13,10 @@ import javax.swing.JOptionPane;
  * @author Neruppuda
  */
 public class UpdateRemainingAmount extends javax.swing.JFrame {
-     private StudentManagementDBUtils studentManagementDBUtils = new StudentManagementDBUtils();
+
+    private StudentManagementDBUtils studentManagementDBUtils = new StudentManagementDBUtils();
+    private StudentManagementValidation studentManagementValidation = new StudentManagementValidation();
+
     /**
      * Creates new form UpdateRemainingAmount
      */
@@ -194,17 +197,25 @@ public class UpdateRemainingAmount extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField1KeyTyped
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        float value =0;
-        if(Float.parseFloat(jTextField1.getText())>Float.parseFloat(jLabel7.getText())){
-            value=Float.parseFloat(jLabel7.getText());
-        }
-        else{
-            value=Float.parseFloat(jTextField1.getText());
-        }
-        if( studentManagementDBUtils.updatePayment(jLabel9.getText(), value, jLabel1.getText())){
-            JOptionPane.showMessageDialog(null, "Payment Added sucesfully", "Save",
+        if (studentManagementValidation.checkEmpty(jTextField1.getText())) {
+            JOptionPane.showMessageDialog(null, "Amount Can not be empty", "ok",
                     JOptionPane.INFORMATION_MESSAGE);
+        } else if (!studentManagementValidation.isNumeric(jTextField1.getText())) {
+            JOptionPane.showMessageDialog(null, "Amount Must be a Numeric value", "ok",
+                    JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            float value = 0;
+            if (Float.parseFloat(jTextField1.getText()) > Float.parseFloat(jLabel7.getText())) {
+                value = Float.parseFloat(jLabel7.getText());
+            } else {
+                value = Float.parseFloat(jTextField1.getText());
+            }
+            if (studentManagementDBUtils.updatePayment(jLabel9.getText(), value, jLabel1.getText())) {
+                JOptionPane.showMessageDialog(null, "Payment Added sucesfully", "Save",
+                        JOptionPane.INFORMATION_MESSAGE);
+            }
         }
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
