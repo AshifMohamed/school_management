@@ -6,29 +6,37 @@
  */
 package school_management.student_management;
 
-
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import javax.swing.JOptionPane;
-
 
 /**
  *
  * @author Neruppuda
  */
 public class AddStudent_UI extends javax.swing.JFrame {
+
+    StudentManagementValidation studentManagementValidation = new StudentManagementValidation();
     DateFormat oDateFormat = new SimpleDateFormat("yyyy-MM-dd");
     private StudentManagementDBUtils studentManagementDBUtils = new StudentManagementDBUtils();
-    private String firstName=null;
+    private String firstName = null;
     private String middleName = null;
-    private String lastName=null;
-    private String dateOfBirth=null;
-    private String address=null;
-    private String gender=null;
-    private String nationality=null;
-    private String contactNumber=null;
-    private String admissionGrade=null;
-    private String eMail=null;
+    private String lastName = null;
+    private String dateOfBirth = null;
+    private String address = null;
+    private String gender = null;
+    private String nationality = null;
+    private String contactNumber = null;
+    private String currentgrade = null;
+    private String eMail = null;
+    private String applicantId = null;
+
+    private String studentId = null;
+    private String gName = null;
+    private String occupation = null;
+    private String gAddress = null;
+    private String gContact = null;
+    private String gEmail = null;
 
     /**
      * Creates new form AddStudent_UI
@@ -49,6 +57,7 @@ public class AddStudent_UI extends javax.swing.JFrame {
         buttonGroup1 = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
+        jButton5 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jTabbedPane2 = new javax.swing.JTabbedPane();
         jPanel4 = new javax.swing.JPanel();
@@ -78,6 +87,8 @@ public class AddStudent_UI extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jXDatePicker1 = new org.jdesktop.swingx.JXDatePicker();
+        jLabel12 = new javax.swing.JLabel();
+        jTextField12 = new javax.swing.JTextField();
         jPanel6 = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
         jPanel5 = new javax.swing.JPanel();
@@ -102,6 +113,14 @@ public class AddStudent_UI extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Kalinga", 1, 36)); // NOI18N
         jLabel1.setText("Student Management");
 
+        jButton5.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+        jButton5.setText("Back");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -109,7 +128,9 @@ public class AddStudent_UI extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(144, 144, 144)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 404, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(194, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
+                .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(29, 29, 29))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -117,6 +138,10 @@ public class AddStudent_UI extends javax.swing.JFrame {
                 .addContainerGap(42, Short.MAX_VALUE)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(38, 38, 38))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -154,7 +179,7 @@ public class AddStudent_UI extends javax.swing.JFrame {
 
         jLabel10.setText("E-mail Address");
 
-        jLabel11.setText("Admission Grade");
+        jLabel11.setText("curentgrade Grade");
 
         jTextField2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -216,6 +241,14 @@ public class AddStudent_UI extends javax.swing.JFrame {
 
         jButton2.setText("Clear");
 
+        jLabel12.setText("Applicantid");
+
+        jTextField12.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField12ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -223,6 +256,7 @@ public class AddStudent_UI extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(24, 24, 24)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -251,13 +285,17 @@ public class AddStudent_UI extends javax.swing.JFrame {
                     .addComponent(jTextField4, javax.swing.GroupLayout.DEFAULT_SIZE, 333, Short.MAX_VALUE)
                     .addComponent(jTextField6, javax.swing.GroupLayout.DEFAULT_SIZE, 333, Short.MAX_VALUE)
                     .addComponent(jComboBox1, 0, 333, Short.MAX_VALUE)
-                    .addComponent(jXDatePicker1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jXDatePicker1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jTextField12, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addContainerGap(254, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(33, 33, 33)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(4, 4, 4)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -341,14 +379,6 @@ public class AddStudent_UI extends javax.swing.JFrame {
 
         jLabel22.setText("E-mail Address");
 
-        jTextField7.setText("jTextField7");
-
-        jTextField9.setText("jTextField7");
-
-        jTextField10.setText("jTextField7");
-
-        jTextField11.setText("jTextField7");
-
         jTextArea2.setColumns(20);
         jTextArea2.setRows(5);
         jScrollPane2.setViewportView(jTextArea2);
@@ -356,6 +386,11 @@ public class AddStudent_UI extends javax.swing.JFrame {
         jButton3.setText("Clear");
 
         jButton4.setText("Save");
+        jButton4.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton4MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -380,10 +415,10 @@ public class AddStudent_UI extends javax.swing.JFrame {
                                     .addComponent(jTextField8)
                                     .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 282, Short.MAX_VALUE)
                                     .addComponent(jTextField7, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                                        .addComponent(jButton4)
-                                        .addGap(50, 50, 50)
-                                        .addComponent(jButton3)))))
+                                    .addGroup(jPanel5Layout.createSequentialGroup()
+                                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                         .addContainerGap())
                     .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
@@ -495,23 +530,102 @@ public class AddStudent_UI extends javax.swing.JFrame {
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
 
-        firstName = jTextField1.getText();
-        lastName = jTextField3.getText();
-        middleName = jTextField2.getText();
-        dateOfBirth = oDateFormat.format(jXDatePicker1.getDate());
-        address = jTextArea1.getText();
-        nationality = jTextField5.getText();
-        admissionGrade = jComboBox1.getSelectedItem().toString();
-        gender = buttonGroup1.getSelection().getActionCommand();
-        eMail = jTextField6.getText();
-        contactNumber =jTextField4.getText();
-        
-        studentManagementDBUtils.saveStudent(firstName, lastName, middleName, dateOfBirth, address, nationality, admissionGrade, gender, eMail, contactNumber);
-        JOptionPane.showMessageDialog(null, "Added new record Successfully ", "Save",
-        JOptionPane.INFORMATION_MESSAGE);
+        if (studentManagementValidation.checkEmpty(jTextField1.getText())) {
+            JOptionPane.showMessageDialog(null, "First Name Cannot be empty", "ok",
+                    JOptionPane.INFORMATION_MESSAGE);
+        } else if (studentManagementValidation.validateString(jTextField1.getText())) {
+            JOptionPane.showMessageDialog(null, "First Name Cannot contain numeric values", "ok",
+                    JOptionPane.INFORMATION_MESSAGE);
+        } else if (studentManagementValidation.checkEmpty(jTextField3.getText())) {
+            JOptionPane.showMessageDialog(null, "Last Name Cannot be empty", "ok",
+                    JOptionPane.INFORMATION_MESSAGE);
+        } else if (studentManagementValidation.validateString(jTextField3.getText())) {
+            JOptionPane.showMessageDialog(null, "Last Name Cannot contain numeric values", "ok",
+                    JOptionPane.INFORMATION_MESSAGE);
+        } else if (jXDatePicker1.getDate() == null) {
+            JOptionPane.showMessageDialog(null, "Date of birth can not be empty", "ok",
+                    JOptionPane.INFORMATION_MESSAGE);
+        } else if (!studentManagementValidation.validateDate(jXDatePicker1.getDate())) {
+            JOptionPane.showMessageDialog(null, "Date of birth must be a past date", "ok",
+                    JOptionPane.INFORMATION_MESSAGE);
+        } else if (studentManagementValidation.checkEmpty(jTextArea1.getText())) {
+            JOptionPane.showMessageDialog(null, "Address can not be empty", "ok",
+                    JOptionPane.INFORMATION_MESSAGE);
+        } else if (studentManagementValidation.validateString(jTextField5.getText())) {
+            JOptionPane.showMessageDialog(null, "Nationality can not contain numeric values", "ok",
+                    JOptionPane.INFORMATION_MESSAGE);
+        } else if (studentManagementValidation.checkEmpty(jTextField4.getText())) {
+            JOptionPane.showMessageDialog(null, "Contact Number can not be empty", "ok",
+                    JOptionPane.INFORMATION_MESSAGE);
+        } else if (studentManagementValidation.validateContactNumber(jTextField4.getText())) {
+            JOptionPane.showMessageDialog(null, "Wrong format of Contact Number", "ok",
+                    JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            firstName = jTextField1.getText();
+            lastName = jTextField3.getText();
+            middleName = jTextField2.getText();
+            dateOfBirth = oDateFormat.format(jXDatePicker1.getDate());
+            address = jTextArea1.getText();
+            nationality = jTextField5.getText();
+            currentgrade = jComboBox1.getSelectedItem().toString();
+            gender = buttonGroup1.getSelection().getActionCommand();
+            eMail = jTextField6.getText();
+            contactNumber = jTextField4.getText();
+            applicantId = jTextField12.getText();
+            studentManagementDBUtils.saveStudent(firstName, lastName, middleName, dateOfBirth, address, nationality, gender, eMail, contactNumber, applicantId, Integer.parseInt(currentgrade));
+            JOptionPane.showMessageDialog(null, "New Student record addedSuccessfully ", "Save",
+                    JOptionPane.INFORMATION_MESSAGE);
+        }
+
     }//GEN-LAST:event_jButton1MouseClicked
 
-    
+    private void jTextField12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField12ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField12ActionPerformed
+
+    private void jButton4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton4MouseClicked
+
+        if (studentManagementValidation.checkEmpty(jTextField8.getText())) {
+            JOptionPane.showMessageDialog(null, "Student ID Cannot be empty", "ok",
+                    JOptionPane.INFORMATION_MESSAGE);
+        } else if (studentManagementValidation.checkEmpty(jTextField9.getText())) {
+            JOptionPane.showMessageDialog(null, "Last Name Cannot be empty", "ok",
+                    JOptionPane.INFORMATION_MESSAGE);
+        } else if (studentManagementValidation.validateString(jTextField9.getText())) {
+            JOptionPane.showMessageDialog(null, "Last Name Cannot contain numeric values", "ok",
+                    JOptionPane.INFORMATION_MESSAGE);
+        } else if (studentManagementValidation.checkEmpty(jTextArea2.getText()))
+        {
+            JOptionPane.showMessageDialog(null, "Address can not be empty", "ok",
+                    JOptionPane.INFORMATION_MESSAGE);
+        }else if (studentManagementValidation.checkEmpty(jTextField7.getText())) {
+            JOptionPane.showMessageDialog(null, "Contact Number can not be empty", "ok",
+                    JOptionPane.INFORMATION_MESSAGE);
+        } else if (studentManagementValidation.validateContactNumber(jTextField7.getText())) {
+            JOptionPane.showMessageDialog(null, "Wrong format of Contact Number", "ok",
+                    JOptionPane.INFORMATION_MESSAGE);
+        }
+        else{
+        studentId = jTextField8.getText();
+        gName = jTextField9.getText();
+        occupation = jTextField11.getText();
+        gAddress = jTextArea2.getText();
+        gContact = jTextField7.getText();
+        gEmail = jTextField10.getText();
+
+        if (studentManagementDBUtils.addparentDetail(studentId, gName, occupation, gAddress, gContact, gEmail)) {
+            JOptionPane.showMessageDialog(null, "Added new record Successfully ", "Save",
+                    JOptionPane.INFORMATION_MESSAGE);
+        }  
+        }
+
+    }//GEN-LAST:event_jButton4MouseClicked
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        StudentAdministration studentAdministration = new StudentAdministration();
+        this.setVisible(false);
+        studentAdministration.setVisible(true);
+    }//GEN-LAST:event_jButton5ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -555,10 +669,12 @@ public class AddStudent_UI extends javax.swing.JFrame {
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
@@ -591,6 +707,7 @@ public class AddStudent_UI extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField10;
     private javax.swing.JTextField jTextField11;
+    private javax.swing.JTextField jTextField12;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;

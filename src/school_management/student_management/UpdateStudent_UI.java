@@ -14,8 +14,10 @@ import javax.swing.JOptionPane;
  */
 public class UpdateStudent_UI extends javax.swing.JFrame {
 
+    StudentManagementValidation studentManagementValidation = new StudentManagementValidation();
     StudentManagementDBUtils studentManagementDBUtils = new StudentManagementDBUtils();
-   // ManageStudent_UI manageStudent_UI = new ManageStudent_UI();
+    // ManageStudent_UI manageStudent_UI = new ManageStudent_UI();
+
     /**
      * Creates new form UpdateStudent_UI
      */
@@ -46,12 +48,12 @@ public class UpdateStudent_UI extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
         updateContactNumberText = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
-        updateStatusText = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         studentIdLabel = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         updateEmailText = new javax.swing.JTextField();
+        jComboBox1 = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -105,12 +107,6 @@ public class UpdateStudent_UI extends javax.swing.JFrame {
 
         jLabel10.setText("E-mail Address");
 
-        updateStatusText.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                updateStatusTextActionPerformed(evt);
-            }
-        });
-
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         jLabel1.setText("Student Update");
 
@@ -129,6 +125,8 @@ public class UpdateStudent_UI extends javax.swing.JFrame {
             }
         });
 
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "active", "inacvtive" }));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -142,7 +140,7 @@ public class UpdateStudent_UI extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(191, 191, 191)
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 101, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 105, Short.MAX_VALUE)
                 .addComponent(studentIdLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(36, 36, 36))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -161,9 +159,9 @@ public class UpdateStudent_UI extends javax.swing.JFrame {
                     .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(updateStatusText, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 333, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(updateEmailText, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 333, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(updateEmailText, javax.swing.GroupLayout.DEFAULT_SIZE, 333, Short.MAX_VALUE)
+                    .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -206,11 +204,11 @@ public class UpdateStudent_UI extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(updateEmailText, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel10))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(updateStatusText, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -257,15 +255,38 @@ public class UpdateStudent_UI extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_updateContactNumberTextActionPerformed
 
-    private void updateStatusTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateStatusTextActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_updateStatusTextActionPerformed
-
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        studentManagementDBUtils.updateStudent(studentIdLabel.getText(), updateFirstNameText.getText(), updateMiddletNameText.getText(), updateLasttNameText.getText(), updateContactNumberText.getText(), updateNationalityText.getText(), updateEmailText.getText(),updateStatusText.getText(), updateAddressText.getText());
-        JOptionPane.showMessageDialog(null, "Record Successfully updated", "Update",
-        JOptionPane.INFORMATION_MESSAGE);
-        
+        if (studentManagementValidation.checkEmpty(updateFirstNameText.getText())) {
+            JOptionPane.showMessageDialog(null, "First Name Cannot be empty", "ok",
+                    JOptionPane.INFORMATION_MESSAGE);
+        } else if (studentManagementValidation.validateString(updateFirstNameText.getText())) {
+            JOptionPane.showMessageDialog(null, "First Name Cannot contain numeric values", "ok",
+                    JOptionPane.INFORMATION_MESSAGE);
+        } else if (studentManagementValidation.checkEmpty(updateLasttNameText.getText())) {
+            JOptionPane.showMessageDialog(null, "Last Name Cannot be empty", "ok",
+                    JOptionPane.INFORMATION_MESSAGE);
+        } else if (studentManagementValidation.validateString(updateLasttNameText.getText())) {
+            JOptionPane.showMessageDialog(null, "Last Name Cannot contain numeric values", "ok",
+                    JOptionPane.INFORMATION_MESSAGE);
+        } else if (studentManagementValidation.checkEmpty(updateAddressText.getText())) {
+            JOptionPane.showMessageDialog(null, "Address can not be empty", "ok",
+                    JOptionPane.INFORMATION_MESSAGE);
+        } else if (studentManagementValidation.validateString(updateNationalityText.getText())) {
+            JOptionPane.showMessageDialog(null, "Nationality can not contain numeric values", "ok",
+                    JOptionPane.INFORMATION_MESSAGE);
+        } else if (studentManagementValidation.checkEmpty(updateContactNumberText.getText())) {
+            JOptionPane.showMessageDialog(null, "Contact Number can not be empty", "ok",
+                    JOptionPane.INFORMATION_MESSAGE);
+        } else if (studentManagementValidation.validateContactNumber(updateContactNumberText.getText())) {
+            JOptionPane.showMessageDialog(null, "Wrong format of Contact Number", "ok",
+                    JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            studentManagementDBUtils.updateStudent(studentIdLabel.getText(), updateFirstNameText.getText(), updateMiddletNameText.getText(), updateLasttNameText.getText(), updateContactNumberText.getText(), updateNationalityText.getText(), updateEmailText.getText(), jComboBox1.getSelectedItem().toString(), updateAddressText.getText());
+            JOptionPane.showMessageDialog(null, "Record Successfully updated", "Update",
+                    JOptionPane.INFORMATION_MESSAGE);
+        }
+
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void updateEmailTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateEmailTextActionPerformed
@@ -310,6 +331,7 @@ public class UpdateStudent_UI extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
+    public javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -328,6 +350,5 @@ public class UpdateStudent_UI extends javax.swing.JFrame {
     public javax.swing.JTextField updateLasttNameText;
     public javax.swing.JTextField updateMiddletNameText;
     public javax.swing.JTextField updateNationalityText;
-    public javax.swing.JTextField updateStatusText;
     // End of variables declaration//GEN-END:variables
 }
