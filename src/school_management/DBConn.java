@@ -25,7 +25,7 @@ public class DBConn {
         * declare the connection string and define it as null so you can define the correct value later 
         *
          */
-        String databaseURL = "jdbc:mysql://localhost:3307/school_management";
+        String databaseURL = "jdbc:mysql://localhost:3306/school_management";
         String user = "root";
         String password = "";
         Connection conn = null;
@@ -34,7 +34,7 @@ public class DBConn {
             Class.forName("com.mysql.jdbc.Driver");
             conn = DriverManager.getConnection(databaseURL, user, password);
             if (conn != null) {
-                System.out.println("Connected to the database");
+                //System.out.println("Connected to the database");
                 return conn;
             }
         } catch (ClassNotFoundException ex) {
