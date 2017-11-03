@@ -25,6 +25,7 @@ public class DisciplinaryDetail extends javax.swing.JFrame {
     private DefaultTableModel defaultTableModel;
     private ResultSet rs;
     private UpdatedisciplinaryDetail updatedisciplinaryDetail = new UpdatedisciplinaryDetail();
+    private StudentManagementValidation studentManagementValidation = new StudentManagementValidation();
 
     public void loadAllStudents() {
 
@@ -48,7 +49,7 @@ public class DisciplinaryDetail extends javax.swing.JFrame {
     public DisciplinaryDetail() {
         initComponents();
         loadAllStudents();
-       
+
     }
 
     public void getStudentById(String id) {
@@ -57,7 +58,6 @@ public class DisciplinaryDetail extends javax.swing.JFrame {
         tableRowSorterById.setRowFilter(RowFilter.regexFilter(id, 0));
     }
 
-    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -83,6 +83,7 @@ public class DisciplinaryDetail extends javax.swing.JFrame {
         jButton5 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         studentTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -272,7 +273,7 @@ public class DisciplinaryDetail extends javax.swing.JFrame {
         updatedisciplinaryDetail.setVisible(true);
         updatedisciplinaryDetail.pack();
         updatedisciplinaryDetail.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        
+
         updatedisciplinaryDetail.jLabel9.setText(defaultTableModel.getValueAt(index, 0).toString());
         updatedisciplinaryDetail.jTextArea1.setText(defaultTableModel.getValueAt(index, 1).toString());
 
@@ -291,21 +292,35 @@ public class DisciplinaryDetail extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1MouseClicked
 
     private void jButton1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MousePressed
-        
+
     }//GEN-LAST:event_jButton1MousePressed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        if(studentManagementDBUtils.addDisciplinarydetail(jTextField3.getText(), jTextArea1.getText())){
-             JOptionPane.showMessageDialog(null, "Disciplinary detail added sucesfully", "Save",
+
+        if (studentManagementValidation.checkEmpty(jTextField3.getText())) {
+            JOptionPane.showMessageDialog(null, "StudentId can not be empty", "Alert",
                     JOptionPane.INFORMATION_MESSAGE);
+        } else if (!studentManagementValidation.validateStudentId(jTextField3.getText())) {
+            JOptionPane.showMessageDialog(null, "Wrong formt od student id student id must be in ST_XXXXX format", "Alert",
+                    JOptionPane.INFORMATION_MESSAGE);
+        } else if (studentManagementValidation.checkEmpty(jTextArea1.getText())) {
+            JOptionPane.showMessageDialog(null, "Please Provide a description", "Alert",
+                    JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            if (studentManagementDBUtils.addDisciplinarydetail(jTextField3.getText(), jTextArea1.getText())) {
+                JOptionPane.showMessageDialog(null, "Disciplinary detail added sucesfully", "Save",
+                        JOptionPane.INFORMATION_MESSAGE);
+            }
+
         }
-       
+
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        StudentAdministration studentAdministration = new StudentAdministration();
-       this.setVisible(false);
-       studentAdministration.setVisible(true);
+        AdmiinistrateStudent studentAdministration = new AdmiinistrateStudent();
+        this.setVisible(false);
+        studentAdministration.setVisible(true);
     }//GEN-LAST:event_jButton5ActionPerformed
 
     /**

@@ -7,7 +7,10 @@
 package school_management.student_management;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -21,6 +24,7 @@ public class Applicant extends javax.swing.JFrame {
      */
     DateFormat oDateFormat = new SimpleDateFormat("yyyy-MM-dd");
     private StudentManagementDBUtils studentManagementDBUtils = new StudentManagementDBUtils();
+    private StudentManagementValidation studentManagementValidation = new StudentManagementValidation();
     private String applicantName = null;
     private int marks;
     private String hallName = null;
@@ -65,6 +69,7 @@ public class Applicant extends javax.swing.JFrame {
         jButton5 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel1.setText("Applicant Management Details");
@@ -251,18 +256,50 @@ public class Applicant extends javax.swing.JFrame {
     }//GEN-LAST:event_jComboBox2ActionPerformed
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
-        contactno=jTextField2.getText();
-        applicantName = jTextField2.getText();
-        appliedDate = oDateFormat.format(jXDatePicker1.getDate());
-        marks = Integer.parseInt(jTextField4.getText());
-        appliedGrade = jComboBox1.getSelectedItem().toString();
-        hallName = jComboBox2.getSelectedItem().toString();
-        examTime = jComboBox4.getSelectedItem().toString();
-        applicantStatus = jComboBox3.getSelectedItem().toString();
-        if (studentManagementDBUtils.saveApplicant(applicantName, appliedDate, contactno, appliedGrade, marks, hallName, examTime, applicantStatus)) {
-            JOptionPane.showMessageDialog(null, "Added new record Successfully ", "Save",
+        if (studentManagementValidation.checkEmpty(jTextField2.getText())) {
+            JOptionPane.showMessageDialog(null, "Applicant Id can not be Empty", "Alert",
                     JOptionPane.INFORMATION_MESSAGE);
+        } else if (studentManagementValidation.validateApplicantId(jTextField2.getText())) {
+            JOptionPane.showMessageDialog(null, "Wrong formt od Applicant id , id must be in AP_XXXXX format", "Alert",
+                    JOptionPane.INFORMATION_MESSAGE);
+        } else if (jXDatePicker1.getDate() == null) {
+            JOptionPane.showMessageDialog(null, "Applied can not be empty", "Alert",
+                    JOptionPane.INFORMATION_MESSAGE);
+        } else if (studentManagementValidation.checkEmpty(jTextField3.getText())) {
+            JOptionPane.showMessageDialog(null, "Contact Number can not be empty", "Alert",
+                    JOptionPane.INFORMATION_MESSAGE);
+        } else if (studentManagementValidation.validateContactNumber(jTextField3.getText())) {
+            JOptionPane.showMessageDialog(null, "Wrong format of Contact Number", "Alert",
+                    JOptionPane.INFORMATION_MESSAGE);
+        } else if (studentManagementValidation.checkEmpty(jTextField4.getText())) {
+            JOptionPane.showMessageDialog(null, "Placement Exam Marks can not be empty", "Alert",
+                    JOptionPane.INFORMATION_MESSAGE);
+        } else if (!studentManagementValidation.validateString(jTextField4.getText())) {
+            JOptionPane.showMessageDialog(null, "Marks shoul be a numeric value", "Alert",
+                    JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            contactno = jTextField2.getText();
+            applicantName = jTextField2.getText();
+            appliedDate = oDateFormat.format(jXDatePicker1.getDate());
+            marks = Integer.parseInt(jTextField4.getText());
+            appliedGrade = jComboBox1.getSelectedItem().toString();
+            hallName = jComboBox2.getSelectedItem().toString();
+            examTime = jComboBox4.getSelectedItem().toString();
+            applicantStatus = jComboBox3.getSelectedItem().toString();
+            try {
+                if (studentManagementDBUtils.saveApplicant(applicantName, jXDatePicker1.getDate(), contactno, appliedGrade, marks, hallName, examTime, applicantStatus)) {
+                    JOptionPane.showMessageDialog(null, "Added new record Successfully ", "Save",
+                            JOptionPane.INFORMATION_MESSAGE);
+                }
+                else{
+                    JOptionPane.showMessageDialog(null, "There is already a record for the ApplicantID please make sure to insert a new id", "Alert",
+                            JOptionPane.INFORMATION_MESSAGE);
+                }
+            } catch (ParseException ex) {
+                Logger.getLogger(Applicant.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
+
 
     }//GEN-LAST:event_jButton1MouseClicked
 
@@ -275,7 +312,7 @@ public class Applicant extends javax.swing.JFrame {
     }//GEN-LAST:event_jComboBox4ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        StudentAdministration studentAdministration = new StudentAdministration();
+        AdmiinistrateStudent studentAdministration = new AdmiinistrateStudent();
         this.setVisible(false);
         studentAdministration.setVisible(true);
     }//GEN-LAST:event_jButton5ActionPerformed
@@ -318,8 +355,6 @@ public class Applicant extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton8;
-    private javax.swing.JButton jButton9;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JComboBox<String> jComboBox3;
