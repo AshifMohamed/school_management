@@ -15,7 +15,7 @@ import java.util.regex.Pattern;
  * @author Neruppuda
  */
 public class StudentManagementValidation {
-    
+
     public static void main(String[] args) {
     }
 
@@ -26,7 +26,7 @@ public class StudentManagementValidation {
         return "".equals(param) || param == null;
     }
 
-    public boolean isNumeric(String s) {
+    public static boolean isNumeric(String s) {
         return java.util.regex.Pattern.matches("\\d+", s);
     }
 
@@ -40,16 +40,32 @@ public class StudentManagementValidation {
     }
 
     public boolean validateDate(Date date) {
-        boolean bool=false;
-        if (date.after(new Date())) {
-            bool=true;
+        boolean bool = false;
+        if (new Date().after(date)) {
+            bool = true;
         }
         return bool;
     }
+
+    public static boolean validateString(String value) {
+        return !value.matches("[a-zA-Z]*");
+    }
+
+    public static boolean validateApplicantId(String text) {
+
+        return  text.startsWith("AP_") && text.split("_")[1].length() == 5 && isNumeric(text.split("_")[1]);
+
+    }
+    public static boolean validateStudentId(String text) {
+
+        return  text.startsWith("ST_") && text.split("_")[1].length() == 5 && isNumeric(text.split("_")[1]);
+
+    }
     
-    public static boolean validateString( String value )
-   {
-      return !value.matches( "[a-zA-Z]*" );
-   } 
+    
+    
+    public static boolean validateAmount(String text){
+        return isNumeric(text) && Float.parseFloat(text)>=0;
+    }
 
 }
