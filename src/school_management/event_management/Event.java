@@ -15,6 +15,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import school_management.DBConn;
 
@@ -24,6 +26,7 @@ import school_management.DBConn;
  */
 public class Event {
     
+    private String eventID;
     private String name;
     private String description;
     private String venue;
@@ -50,7 +53,7 @@ public class Event {
     }
     
     
-    public static ResultSet tableload_upcoming() {
+    public ResultSet tableloadUpcoming() {
         try {
             DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
             Date date = new Date();
@@ -67,9 +70,19 @@ public class Event {
         }
     }
     
-    public static ResultSet tableload_all(){
+    public ResultSet tableloadCustom(){
         try {
             String sql = "select event_name as 'Name', event_description as 'Description', event_venue as 'Venue', event_organizer as 'Organizer', start_date 'Date', start_time as 'Starting on', end_time as 'Ending on' from event_details";
+            PreparedStatement pst = DBConn.myConn().prepareStatement(sql);
+            return pst.executeQuery();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+    
+    public ResultSet tableloadAll(){
+        try {
+            String sql = "select event_id as 'ID', event_name as 'Name', event_description as 'Description', event_venue as 'Venue', event_organizer as 'Organizer', start_date 'Date', end_date as 'Till', start_time as 'Starting on', end_time as 'Ending on' from event_details";
             PreparedStatement pst = DBConn.myConn().prepareStatement(sql);
             return pst.executeQuery();
         } catch (Exception e) {
@@ -85,6 +98,54 @@ public class Event {
         return true;
     }
     
+    public ResultSet searchByID(String pID){
+        this.setEventID(pID);
+        try {
+            String sql = "select event_name as 'Name', event_description as 'Description', event_venue as 'Venue', event_organizer as 'Organizer', start_date 'Date', start_time as 'Starting on', end_time as 'Ending on' from event_details where event_id like '%"+this.getEventID()+"%'";
+            PreparedStatement pst = DBConn.myConn().prepareStatement(sql);
+            return pst.executeQuery();
+        } catch (SQLException ex) {
+            Logger.getLogger(Event.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+    }
+    
+    public ResultSet searchByName(String pName){
+        this.setName(pName);
+        try {
+            String sql = "select event_name as 'Name', event_description as 'Description', event_venue as 'Venue', event_organizer as 'Organizer', start_date 'Date', start_time as 'Starting on', end_time as 'Ending on' from event_details where event_name like '%"+this.getName()+"%'";
+            PreparedStatement pst = DBConn.myConn().prepareStatement(sql);
+            return pst.executeQuery();
+        } catch (SQLException ex) {
+            Logger.getLogger(Event.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+    }
+    
+    public ResultSet searchByDate(String pDate){
+        this.setStartDate(pDate);
+        try {
+            String sql = "select event_name as 'Name', event_description as 'Description', event_venue as 'Venue', event_organizer as 'Organizer', start_date 'Date', start_time as 'Starting on', end_time as 'Ending on' from event_details where start_date like '%"+this.getStartDate()+"%'";
+            PreparedStatement pst = DBConn.myConn().prepareStatement(sql);
+            return pst.executeQuery();
+        } catch (SQLException ex) {
+            Logger.getLogger(Event.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+    }
+    
+    public ResultSet searchThis(String pstartDate, String pStartTime, String pVenue) {
+        
+        try {
+            String sql = "select event_name, event_venue from event_details where start_date = \""+pstartDate+"\" and start_time = \""+pStartTime+"\" and event_venue = \""+pVenue+"\"";
+            PreparedStatement pst = DBConn.myConn().prepareStatement(sql);
+            return pst.executeQuery();
+        } catch (SQLException ex) {
+            Logger.getLogger(Event.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+    }
+    
     public boolean InsertThis() {
         boolean result = false;
         if (this.validate()) {
@@ -93,6 +154,38 @@ public class Event {
                 String query;
                 query = "insert into event_details (event_name, event_description, event_venue, event_organizer, start_date, start_time, end_date, end_time) "
                         + "values (?,?,?,?,?,?,?,?)";
+
+                PreparedStatement statement = c.prepareStatement(query);
+                statement.setString(1, this.getName());
+                statement.setString(2, this.getDescription());
+                statement.setString(3, this.getVenue());
+                statement.setString(4, this.getOrganizer());
+                statement.setString(5, this.getStartDate());
+                statement.setString(6, this.getStartTime());
+                statement.setString(7, this.getEndDate());
+                statement.setString(8, this.getEndTime());
+
+                int rowsInserted = statement.executeUpdate();
+                if (rowsInserted > 0) {
+                    //JOptionPane.showMessageDialog(null, "Event Scheduled");
+                    result = true;
+                }
+            } catch (SQLException | HeadlessException e) {
+                //JOptionPane.showMessageDialog(null, e.getMessage());
+            }
+        }
+        else 
+            return result;
+        return result;
+    }
+    
+    public boolean updateSpecific(String pid){
+        boolean result = false;
+        if (this.validate()) {
+            try {
+                Connection c = DBConn.myConn();
+                String query;
+                query = "update event_details set event_name = ? ,event_description = ? ,event_venue = ? ,event_organizer = ? ,start_date = ? ,start_time = ? ,end_date = ? ,end_time = ? where event_id = "+pid;
 
                 PreparedStatement statement = c.prepareStatement(query);
                 statement.setString(1, this.getName());
@@ -264,6 +357,20 @@ public class Event {
      */
     public void setEndTime(String endTime) {
         this.endTime = endTime;
+    }
+
+    /**
+     * @return the eventID
+     */
+    public String getEventID() {
+        return eventID;
+    }
+
+    /**
+     * @param eventID the eventID to set
+     */
+    public void setEventID(String eventID) {
+        this.eventID = eventID;
     }
     
 }

@@ -20,7 +20,7 @@ public class School_Management {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        Login_UI login = new Login_UI();
+        LoginUI login = new LoginUI();
         login.setVisible(true);
     }
     
