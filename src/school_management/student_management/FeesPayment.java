@@ -28,7 +28,7 @@ public class FeesPayment extends javax.swing.JFrame {
     public void loadAllStudents() {
 
         try (Connection dbConnection = DBConn.myConn()) {
-            rs = dbConnection.createStatement().executeQuery("select s.* from student s , payment p where s.idstudent != p.studentId ");
+            rs = dbConnection.createStatement().executeQuery("select s.* from student s where s.idstudent not in(select studentId from payment)");
             while (rs.next()) {
                 Object[] content = {rs.getString("idstudent"), rs.getString("dateofregistration"), rs.getString("firstname"), rs.getString("middlename"), rs.getString("lastname"), rs.getString("dateofbirth"), rs.getString("address"), rs.getString("gender"), rs.getString("nationality"), rs.getString("contactNo"), rs.getString("mailid"), rs.getString("currentGrade"), rs.getString("status")};
                 defaultTableModel = (DefaultTableModel) studentTable.getModel();
@@ -90,6 +90,7 @@ public class FeesPayment extends javax.swing.JFrame {
         jButton5 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         studentTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -328,11 +329,12 @@ public class FeesPayment extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1MousePressed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+       
         if (studentManagementValidation.checkEmpty(jTextField3.getText())) {
             JOptionPane.showMessageDialog(null, "Amount Can not be empty", "ok",
                     JOptionPane.INFORMATION_MESSAGE);
-        } else if (!studentManagementValidation.isNumeric(jTextField3.getText())) {
-            JOptionPane.showMessageDialog(null, "Amount Must be a Numeric value", "ok",
+        } else if (!studentManagementValidation.validateAmount(jTextField3.getText())) {
+            JOptionPane.showMessageDialog(null, "Please provide a valid amount", "ok",
                     JOptionPane.INFORMATION_MESSAGE);
         } else {
             float value = 0;
@@ -351,7 +353,7 @@ public class FeesPayment extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        StudentAdministration studentAdministration = new StudentAdministration();
+        AdmiinistrateStudent studentAdministration = new AdmiinistrateStudent();
         this.setVisible(false);
         studentAdministration.setVisible(true);
     }//GEN-LAST:event_jButton5ActionPerformed

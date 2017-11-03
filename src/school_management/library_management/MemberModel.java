@@ -5,18 +5,9 @@
  */
 package school_management.library_management;
 
-import java.awt.Checkbox;
-import java.awt.CheckboxGroup;
-import java.awt.Label;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.JOptionPane;
-import net.proteanit.sql.DbUtils;
 import school_management.DBConn;
-
 /**
  *
  * @author Umani Welisara
@@ -55,7 +46,7 @@ public class MemberModel {
     public boolean insertMember() {
         try {
             String s = "insert into members (mname,mgrade,memail,mcontactnum,mstatus) values (?,?,?,?,?)";
-            PreparedStatement pst = DBConn.myConn().prepareStatement(s);
+             PreparedStatement pst = DBConn.myConn().prepareStatement(s);
             pst.setString(1, this.mname);
             pst.setString(2, this.mgrade);
             pst.setString(3, this.memail);
@@ -65,9 +56,12 @@ public class MemberModel {
 
             return true;
         } catch (SQLException e) {
-            return false;
+            //return false;
+            e.printStackTrace();
+            //
         }
-
+        return false;
+//
     }
 
     public boolean updateMember() {
@@ -100,36 +94,6 @@ System.out.println(pst);
         }
 
     }
-//     public boolean deselectMember(){
-//         CheckboxGroup cg = new CheckboxGroup();
-//    Checkbox cb = cg.getSelectedCheckbox();
-//if(null != cb) {
-//  //not checked
-//  JOptionPane.showMessageDialog(null, "deactive the member");
-//  return true;
-//} else {
-//  JOptionPane.showMessageDialog(null, "active the member");
-//  return false;
-//}
-//     }
-//    
-//    public void viewEnableMember(){
-//        try {
-//            String s= "select mregID,mname,mgrade,memail,mcontactnum from members where status='Enable'"; 
-//             pst = conn.prepareStatement(n);
-//            rs = pst.executeQuery();
-//            tblbooks.setModel(DbUtils.resultSetToTableModel(rs));
-//            
-//        } catch (Exception e) {
-//            
-//        }
-//    
-//    
-//    
-//    }
-//    
-//    
-//    
 
     public String getMregID() {
         return mregID;

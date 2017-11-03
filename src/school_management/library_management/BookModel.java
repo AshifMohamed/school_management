@@ -1,32 +1,26 @@
 /*
- * Copyright (c) Team Extreme. All rights reserved.
- * Technologies  * 
- * Language - JAVA  * 
- * Database - MySQL  * 
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
  */
 package school_management.library_management;
 
-import java.awt.Label;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.JOptionPane;
-import net.proteanit.sql.DbUtils;
 import school_management.DBConn;
+
 /**
  *
  * @author Umani Welisara
  */
 public class BookModel {
-    
-     private String bid;
+
+    private String bid;
     private String bname;
     private String bauthor;
     private String bcategory;
     private String bqty;
-    private String txtsearch;
+    //private String txtsearch;
 
     public BookModel(String bid, String bname, String bauthor, String bcategory, String bqty) {
         this.bid = bid;
@@ -50,14 +44,14 @@ public class BookModel {
 
     public boolean insertBook() {
         try {
-            String s = "insert into books(bname,bauthor,bcategory,bqty) values (?,?,?,?)";
+            String s = "insert into books (bname,bauthor,bcategory,bqty) values (?,?,?,?)";
             PreparedStatement pst = DBConn.myConn().prepareStatement(s);
-            
+
             pst.setString(1, this.bname);
             pst.setString(2, this.bauthor);
             pst.setString(3, this.bcategory);
             pst.setString(4, this.bqty);
-
+            pst.execute();
             return true;
         } catch (SQLException ex) {
             return false;
@@ -92,6 +86,7 @@ public class BookModel {
 
             PreparedStatement pst = DBConn.myConn().prepareStatement(q);
 
+           
             pst.setString(1, this.bname);
             pst.setString(2, this.bauthor);
             pst.setString(3, this.bcategory);
@@ -107,6 +102,7 @@ public class BookModel {
         }
 
     }
+
 
     public String getBid() {
         return bid;
@@ -148,6 +144,4 @@ public class BookModel {
         this.bqty = bqty;
     }
 
-    
-    
 }

@@ -80,6 +80,7 @@ public class UpdateFeesPayment extends javax.swing.JFrame {
         jButton5 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         studentTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -255,7 +256,7 @@ public class UpdateFeesPayment extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField2KeyTyped
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        StudentAdministration studentAdministration = new StudentAdministration();
+        AdmiinistrateStudent studentAdministration = new AdmiinistrateStudent();
        this.setVisible(false);
        studentAdministration.setVisible(true);
     }//GEN-LAST:event_jButton5ActionPerformed
