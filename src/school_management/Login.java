@@ -19,6 +19,8 @@ public class Login {
     private String username;
     private String psword;
     private String role;
+    
+    public Login(){}
 
     public Login(String uname, String pword, String crole) {
         this.username = uname;

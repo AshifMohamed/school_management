@@ -192,8 +192,8 @@ public class IssueBooksUI extends javax.swing.JFrame {
             bbmid.setText("");
             bbbid_1.setText("");
             bbbid_2.setText("");
-            lblcdate.setText("");
-            lblrdate.setText("");
+           
+          
         } else {
             JOptionPane.showMessageDialog(this, "Error in inserting to db");
         }

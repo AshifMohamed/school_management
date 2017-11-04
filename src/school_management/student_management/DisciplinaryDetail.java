@@ -172,7 +172,7 @@ public class DisciplinaryDetail extends javax.swing.JFrame {
         jLabel4.setText("Student Id");
 
         jLabel7.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
-        jLabel7.setText("Dscription");
+        jLabel7.setText("Description");
 
         jButton1.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
         jButton1.setText("Add Detail");
@@ -265,6 +265,7 @@ public class DisciplinaryDetail extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void studentTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_studentTableMouseClicked

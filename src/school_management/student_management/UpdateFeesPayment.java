@@ -56,7 +56,7 @@ public class UpdateFeesPayment extends javax.swing.JFrame {
     public void getPaymentByStatus(String name) {
         TableRowSorter<DefaultTableModel> tableRowSorterByName = new TableRowSorter<DefaultTableModel>(defaultTableModel);
         studentTable.setRowSorter(tableRowSorterByName);
-        tableRowSorterByName.setRowFilter(RowFilter.regexFilter(name, 6));
+        tableRowSorterByName.setRowFilter(RowFilter.regexFilter(name, 5));
     }
 
     /**
@@ -223,6 +223,7 @@ public class UpdateFeesPayment extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void studentTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_studentTableMouseClicked
