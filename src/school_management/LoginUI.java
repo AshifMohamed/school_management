@@ -7,8 +7,13 @@
 package school_management;
 
 import java.awt.Color;
+import java.text.ParseException;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import school_management.event_management.EventCordinator;
+import school_management.event_management.EventHistory;
 
 /**
  *
@@ -21,7 +26,7 @@ public class LoginUI extends javax.swing.JFrame {
      */
     public LoginUI() {
         initComponents();
-         getContentPane().setBackground(new Color(114, 151, 180));
+        getContentPane().setBackground(new Color(114, 151, 180));
         jTextField_username.setText("");
         jPasswordField_password.setText("");
         try {
@@ -53,6 +58,7 @@ public class LoginUI extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jButton1 = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -65,6 +71,9 @@ public class LoginUI extends javax.swing.JFrame {
         jLabel12 = new javax.swing.JLabel();
         lbltime = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+
+        jButton1.setText("jButton1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -89,7 +98,7 @@ public class LoginUI extends javax.swing.JFrame {
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setText("ROLE:");
 
-        jComboBox_role.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Admin", "Controller" }));
+        jComboBox_role.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Admin", "Event Cordinator" }));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -145,20 +154,35 @@ public class LoginUI extends javax.swing.JFrame {
         jLabel11.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel11.setText("Time:");
 
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(0, 0, 153));
+        jLabel1.setText("Create an account...");
+        jLabel1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jLabel1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel1MouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap(82, Short.MAX_VALUE)
-                .addComponent(jLabel12)
-                .addGap(10, 10, 10)
-                .addComponent(lbldate, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(290, 290, 290)
-                .addComponent(jLabel11)
-                .addGap(9, 9, 9)
-                .addComponent(lbltime)
-                .addGap(80, 80, 80))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jLabel12)
+                        .addGap(10, 10, 10)
+                        .addComponent(lbldate, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(290, 290, 290)
+                        .addComponent(jLabel11)
+                        .addGap(9, 9, 9)
+                        .addComponent(lbltime)
+                        .addGap(80, 80, 80))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(226, 226, 226))))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(0, 80, Short.MAX_VALUE)
@@ -168,7 +192,9 @@ public class LoginUI extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(373, Short.MAX_VALUE)
+                .addContainerGap(274, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addGap(79, 79, 79)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel12)
                     .addComponent(lbldate)
@@ -183,6 +209,7 @@ public class LoginUI extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton_loginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_loginActionPerformed
@@ -194,23 +221,36 @@ public class LoginUI extends javax.swing.JFrame {
 
         if (role.equals("Admin")) {
             if (log.checkAvailability()) {
-               // Admin page = new Admin();
-                //this.dispose();
-               // page.setVisible(true);
+                //This is to update the history table automatically 
+                EventHistory evnHis = new EventHistory();
+                try {
+                    evnHis.autoHistory();
+                } catch (ParseException ex) {
+                    Logger.getLogger(LoginUI.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
+                
                 JOptionPane.showMessageDialog(null, "Admin");
             } else {
                 JOptionPane.showMessageDialog(null, "Invalid Username/Password/Role");
             }
-        } else if (role.equals("Controller")) {
+        } else if (role.equals("Event Cordinator")) {
             if (log.checkAvailability()) {
-                //Controller page = new Controller();
-               // this.dispose();
-               // page.setVisible(true);
+                EventCordinator evCon = new EventCordinator();
+                evCon.setVisible(true);
+                this.setVisible(false);
             } else {
                 JOptionPane.showMessageDialog(null, "Invalid Username/Password/Role");
             }
         }
     }//GEN-LAST:event_jButton_loginActionPerformed
+
+    private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
+        // TODO add your handling code here:
+        AdminLogin log = new AdminLogin();
+        log.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_jLabel1MouseClicked
 
     /**
      * @param args the command line arguments
@@ -249,8 +289,10 @@ public class LoginUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton_login;
     private javax.swing.JComboBox<String> jComboBox_role;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel3;

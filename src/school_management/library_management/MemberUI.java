@@ -169,7 +169,7 @@ public class MemberUI extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(tblmembers);
 
-        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 90, 670, 270));
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 90, 770, 270));
 
         lblmregid.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         lblmregid.setText("jLabel2");
@@ -224,7 +224,7 @@ public class MemberUI extends javax.swing.JFrame {
         getContentPane().add(btnmenable, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 370, 140, 50));
 
         txtmvisible.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        getContentPane().add(txtmvisible, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 50, 280, 30));
+        getContentPane().add(txtmvisible, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 40, 280, 30));
 
         jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/school_management/library_management/images/lms-2.jpg"))); // NOI18N
         jLabel4.setText("jLabel4");
@@ -394,12 +394,12 @@ public class MemberUI extends javax.swing.JFrame {
         // TODO add your handling code here:
         
        try {
-            String s= "select mregID,mname,mgrade,memail,mcontactnum from members where mstatus='Enable'"; 
+            String s= "select mregID,mname,mgrade,memail,mcontactnum,mstatus from members where mstatus='Enable'"; 
              pst = conn.prepareStatement(s);
             rs = pst.executeQuery();
             tblmembers.setModel(DbUtils.resultSetToTableModel(rs));
             
-            txtmvisible.setText("List Of ENABLE Members");
+            //txtmvisible.setText("List Of ENABLE Members");
             
         } catch (Exception e) {
             
@@ -411,12 +411,12 @@ public class MemberUI extends javax.swing.JFrame {
     private void btnmdisableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnmdisableActionPerformed
         // TODO add your handling code here:
          try {
-            String s= "select mregID,mname,mgrade,memail,mcontactnum from members where mstatus='Disable'"; 
+            String s= "select mregID,mname,mgrade,memail,mcontactnum,mstatus from members where mstatus='Disable'"; 
              pst = conn.prepareStatement(s);
             rs = pst.executeQuery();
             tblmembers.setModel(DbUtils.resultSetToTableModel(rs));
             
-            txtmvisible.setText("List Of DISABLED Members");
+            //txtmvisible.setText("List Of DISABLED Members");
         } catch (Exception e) {
             
         }

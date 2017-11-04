@@ -54,6 +54,7 @@ public class BookModel {
             pst.execute();
             return true;
         } catch (SQLException ex) {
+            System.out.println(ex);
             return false;
         }
     }
