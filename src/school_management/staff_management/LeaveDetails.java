@@ -21,17 +21,17 @@ public class LeaveDetails extends javax.swing.JFrame {
      * Creates new form LeaveDetails
      */
      ResultSet rs=null;
-     viewLeaveRequest vw;
+     StaffAdmin st;
     
     public LeaveDetails() {
         
         initComponents();
        // fillFields();
     }
-    public LeaveDetails(int leaveId,viewLeaveRequest vw) {
+    public LeaveDetails(int leaveId,StaffAdmin st) {
         
         initComponents();
-        this.vw=vw;
+        this.st=st;
         fillFields(leaveId);
     }
 
@@ -95,6 +95,7 @@ public class LeaveDetails extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         lblStaffId.setText("Staff ID");
 
@@ -279,7 +280,7 @@ public class LeaveDetails extends javax.swing.JFrame {
         // TODO add your handling code here:
          updateLeaveBalance();
          DeleteLeaveRequest();
-         this.vw.tableLoad();
+         this.st.leaveTableLoad();
          this.setVisible(false);
          
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -336,7 +337,7 @@ public class LeaveDetails extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
         DeleteLeaveRequest();
-        this.vw.tableLoad();
+        this.st.leaveTableLoad();
         this.setVisible(false);
     }//GEN-LAST:event_jButton2ActionPerformed
 

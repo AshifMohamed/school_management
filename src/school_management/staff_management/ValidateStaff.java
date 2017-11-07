@@ -106,6 +106,9 @@ public class ValidateStaff {
         if(leaveDate.compareTo(today)<=0){
             JOptionPane.showMessageDialog(null, "Invalid Leave Start Date , It should a future Date");
             return false;
+        }else if(isWeekend(leaveStartDate)){
+            
+            return false;
         }else{
             
             return true;
@@ -129,10 +132,27 @@ public class ValidateStaff {
         if(endDate.compareTo(leaveDate)<0){
             JOptionPane.showMessageDialog(null, "Invalid Leave End Date , Please Check and Retry");
             return false;
+        }else if(isWeekend(leaveEndDate)){
+            
+            return false;
         }else{
             
             return true;
         }
+        
+    }
+    
+    public boolean isWeekend(Date date){
+        
+      String day=  date.toString().substring(0, 3);
+        System.out.println(day);
+     if(day.equalsIgnoreCase("Sat")||(day.equalsIgnoreCase("Sun"))){
+          JOptionPane.showMessageDialog(null, "Invalid Date ,you have selected a Weekend");
+          return true;
+      }else{
+          
+          return false;
+      }
         
     }
     

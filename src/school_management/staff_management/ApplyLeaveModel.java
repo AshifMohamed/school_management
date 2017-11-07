@@ -207,5 +207,45 @@ public class ApplyLeaveModel {
         }
     }
     
+    public ResultSet searchStaffByFname(String staffName){
+        
+        ResultSet rs=null;
+        try {                   
+            String sql = "select LeaveId as 'Leave Id', staff_Id as 'Staff ID',FirstName as 'First Name',ApplyDate as 'Apply Date',Status as 'Leave Status'from EmpLeaveRequest where FirstName like '%"+staffName+"%'"; 
+            PreparedStatement pst = DBConn.myConn().prepareStatement(sql);
+            rs = pst.executeQuery();
+            
+                       
+            return rs;
+            
+        } catch (Exception e) {     
+            System.out.println(e);
+            return rs;
+        }               
+               
+    }
+    
+    public String getNamefromStaffId(int staffId ){
+        
+        String sql="select firstName from staff_table where staff_Id='"+staffId+"'";
+        String name=null;
+        try{
+         pst = DBConn.myConn().prepareStatement(sql);
+         rs = pst.executeQuery();
+          if(rs.next()){
+            name= rs.getString("firstName");
+          }
+          return name;
+        }
+        catch(SQLException ex){
+            System.out.println(ex);
+            return name;
+        }
+        catch(Exception ex){
+            System.out.println(ex);
+            return name;
+        }
+    }
+    
     
 }

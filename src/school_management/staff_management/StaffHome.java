@@ -29,23 +29,24 @@ public class StaffHome extends javax.swing.JFrame {
     private ApplyLeaveModel al;
     private int staffId;
     private String firstName;
+
     public StaffHome() {
-             
+
         initComponents();
         fillFields();
-        al=new ApplyLeaveModel();
+        al = new ApplyLeaveModel();
     }
-    
+
     public StaffHome(int staffId) {
-        
-        this.staffId=staffId;
-        al=new ApplyLeaveModel();
+
+        this.staffId = staffId;
+        al = new ApplyLeaveModel();
         initComponents();
         fillFields();
     }
-    
-   private void fillFields(){
-       
+
+    private void fillFields() {
+
         txtStaffId.setText(Integer.toString(this.staffId));
         dateStart.setDate(gettommarrowDate());
         dateEndDate.setDate(gettommarrowDate());
@@ -54,25 +55,25 @@ public class StaffHome extends javax.swing.JFrame {
         al.getLeaveBalancefromStaffId();
         txtName.setText(al.getStaffName());
         txtAvailable.setText(Integer.toString(al.getAvailableBalance()));
-   }
-    
-   private Date gettommarrowDate(){
-       
+    }
+
+    private Date gettommarrowDate() {
+
         SimpleDateFormat df = new SimpleDateFormat("EEEE dd/MM/yyyy");
-        Date date1=null;
-       Calendar c=Calendar.getInstance();
-       c.setTime(new Date());
-       c.add(Calendar.DATE,1);
-       String tommarrowDate=df.format(c.getTime());
+        Date date1 = null;
+        Calendar c = Calendar.getInstance();
+        c.setTime(new Date());
+        c.add(Calendar.DATE, 1);
+        String tommarrowDate = df.format(c.getTime());
         try {
             date1 = df.parse(tommarrowDate);
-           
+
         } catch (ParseException ex) {
             Logger.getLogger(StaffHome.class.getName()).log(Level.SEVERE, null, ex);
         }
         return date1;
-   }
-    
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -101,6 +102,7 @@ public class StaffHome extends javax.swing.JFrame {
         btnApply = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(0, 0, 102));
 
@@ -117,23 +119,29 @@ public class StaffHome extends javax.swing.JFrame {
 
         jPanel2.setBackground(new java.awt.Color(0, 0, 102));
 
-        jButton1.setText("LogOut");
+        jButton1.setBackground(new java.awt.Color(0, 102, 102));
+        jButton1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jButton1.setForeground(new java.awt.Color(255, 51, 51));
+        jButton1.setText("Log Out");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton1)
-                .addGap(24, 24, 24))
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jButton1))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jButton1)
+                .addGap(0, 12, Short.MAX_VALUE))
         );
 
         jPanel3.setBackground(new java.awt.Color(0, 153, 153));
@@ -290,56 +298,59 @@ public class StaffHome extends javax.swing.JFrame {
 
     private void btnApplyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnApplyActionPerformed
         // TODO add your handling code here:
-        ValidateStaff vs=new ValidateStaff();
-        if(
-                (vs.isValidleaveStartDate(dateStart.getDate()))
-                &&(vs.isValidleaveEndDate(dateStart.getDate(), dateEndDate.getDate()))){
-        int balance=Integer.parseInt(txtAvailable.getText());
-        int noOfDays=getDateDiff();
-        al.setStaffId(this.staffId);
-        al.setStaffName(txtName.getText());
-        al.setAvailableBalance(balance);
-        al.setStartDate(dateStart.getDate());
-        al.setEndDate(dateEndDate.getDate());
-        al.setApplyDate(new Date());
-        al.setNoOfDays(noOfDays);
-        al.setAvailableBalanceAfter(balance-noOfDays);
-        al.applyLeave();
+        ValidateStaff vs = new ValidateStaff();
+        if ((vs.isValidleaveStartDate(dateStart.getDate()))
+                && (vs.isValidleaveEndDate(dateStart.getDate(), dateEndDate.getDate()))) {
+            int balance = Integer.parseInt(txtAvailable.getText());
+            int noOfDays = getDateDiff();
+            al.setStaffId(this.staffId);
+            al.setStaffName(txtName.getText());
+            al.setAvailableBalance(balance);
+            al.setStartDate(dateStart.getDate());
+            al.setEndDate(dateEndDate.getDate());
+            al.setApplyDate(new Date());
+            al.setNoOfDays(noOfDays);
+            al.setAvailableBalanceAfter(balance - noOfDays);
+            al.applyLeave();
         }
     }//GEN-LAST:event_btnApplyActionPerformed
 
-    private int getDateDiff(){
-        
-        SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
-        String endDate=df.format(dateEndDate.getDate());
-        String startDate=df.format(dateStart.getDate());
-        try {
-            Date end=df.parse(endDate);
-            Date start=df.parse(startDate);
-            long diff = end.getTime() - start.getTime();
-            long diffDays = diff / (24 * 60 * 60 * 1000);
-            Integer days = (int) (long) diffDays;
-           // System.out.println(days.toString());
-            return days+1;
-            
-        } catch (ParseException ex) {
-            
-            Logger.getLogger(StaffHome.class.getName()).log(Level.SEVERE, null, ex);
-            return -1;
-        }
-        
-                
-        
-        
+    private int getDateDiff() {
+
+        Calendar startCal = Calendar.getInstance();
+        startCal.setTime(dateStart.getDate());
+
+        Calendar endCal = Calendar.getInstance();
+        endCal.setTime(dateEndDate.getDate());
+
+        int workDays = 0;
+               
+        do {
+                       
+            if (startCal.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY && startCal.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY) {
+                ++workDays;
+            }
+            startCal.add(Calendar.DAY_OF_MONTH, 1);
+        } while (startCal.getTimeInMillis() <= endCal.getTimeInMillis()); 
+
+        return workDays;
+
     }
     private void dateEndDateInputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_dateEndDateInputMethodTextChanged
         // TODO add your handling code here:
-        
+
     }//GEN-LAST:event_dateEndDateInputMethodTextChanged
 
     private void dateEndDateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dateEndDateActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_dateEndDateActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        LoginUI lg = new LoginUI();
+        lg.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments

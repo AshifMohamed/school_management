@@ -1,36 +1,63 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright (c) Team Extreme. All rights reserved.
+ * Technologies  * 
+ * Language - JAVA  * 
+ * Database - MySQL  * 
  */
 package school_management.staff_management;
 
+import java.awt.HeadlessException;
 import java.awt.event.KeyEvent;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import net.proteanit.sql.DbUtils;
+import school_management.DBConn;
 
 /**
  *
  * @author User
  */
-public class RegisterStaff extends javax.swing.JFrame {
+public class StaffAdmin extends javax.swing.JFrame {
 
     /**
-     * Creates new form RegisterStaff
+     * Creates new form StaffAdmin
      */
-    ManageStaff mg;
-    public RegisterStaff() {
+    private ResultSet rs=null;
+    
+    public StaffAdmin() {
         initComponents();
+        
+        try {
+            new Thread(new Runnable() {
+                public void run() {
+                    while (true) {
+                        Date d = new Date();
+                        String date = d.toString();
+                        String ar[] = date.split(" ");
+                        String newdate = ar[5] + "-" + ar[1] + "-" + ar[2];
+
+                        lbldate.setText(newdate);
+                        lbltime.setText(ar[3]);
+                    }
+                }
+            }).start();
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
         btnUpdate.setVisible(false);
         lblStaffId.setVisible(false);
         lblStaff.setVisible(false);
+        staffTableload();
+        leaveTableLoad();
     }
 
     /**
@@ -42,6 +69,14 @@ public class RegisterStaff extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel16 = new javax.swing.JPanel();
+        jLabel36 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
+        jLabel39 = new javax.swing.JLabel();
+        lbldate = new javax.swing.JLabel();
+        lbltime = new javax.swing.JLabel();
+        jLabel40 = new javax.swing.JLabel();
+        staffTab = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         lblFirstName = new javax.swing.JLabel();
@@ -94,9 +129,92 @@ public class RegisterStaff extends javax.swing.JFrame {
         jPanel8 = new javax.swing.JPanel();
         btnAdd = new javax.swing.JButton();
         btnUpdate = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        jPanel6 = new javax.swing.JPanel();
+        jPanel9 = new javax.swing.JPanel();
+        txtFname = new javax.swing.JTextField();
+        jButton3 = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        tableStaff = new javax.swing.JTable();
+        jPanel10 = new javax.swing.JPanel();
+        jPanel11 = new javax.swing.JPanel();
+        txtFname1 = new javax.swing.JTextField();
+        jButton6 = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        tableLeaveRequest = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
+
+        jPanel16.setBackground(new java.awt.Color(0, 153, 153));
+
+        jLabel36.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/17241-200.png"))); // NOI18N
+
+        jButton1.setBackground(new java.awt.Color(0, 51, 102));
+        jButton1.setFont(new java.awt.Font("Verdana", 1, 11)); // NOI18N
+        jButton1.setText("MAIN");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jLabel39.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel39.setText("Date:");
+
+        lbldate.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        lbldate.setText("jLabel10");
+
+        lbltime.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        lbltime.setText("jLabel13");
+
+        jLabel40.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel40.setText("Time:");
+
+        javax.swing.GroupLayout jPanel16Layout = new javax.swing.GroupLayout(jPanel16);
+        jPanel16.setLayout(jPanel16Layout);
+        jPanel16Layout.setHorizontalGroup(
+            jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel16Layout.createSequentialGroup()
+                .addComponent(jLabel36)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(jPanel16Layout.createSequentialGroup()
+                .addGap(33, 33, 33)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel16Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel16Layout.createSequentialGroup()
+                        .addComponent(jLabel39)
+                        .addGap(10, 10, 10)
+                        .addComponent(lbldate, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel16Layout.createSequentialGroup()
+                        .addComponent(jLabel40)
+                        .addGap(9, 9, 9)
+                        .addComponent(lbltime)))
+                .addContainerGap())
+        );
+        jPanel16Layout.setVerticalGroup(
+            jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel16Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel36)
+                .addGap(55, 55, 55)
+                .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel39)
+                    .addComponent(lbldate))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel40)
+                    .addComponent(lbltime))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(23, 23, 23))
+        );
+
+        staffTab.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Staff Details", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
 
@@ -341,8 +459,8 @@ public class RegisterStaff extends javax.swing.JFrame {
                     .addComponent(lblProff))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 122, Short.MAX_VALUE)
-                    .addComponent(jScrollPane2))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -501,33 +619,18 @@ public class RegisterStaff extends javax.swing.JFrame {
                 .addGap(25, 25, 25))
         );
 
-        jButton1.setBackground(new java.awt.Color(0, 102, 102));
-        jButton1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(255, 51, 51));
-        jButton1.setText("X");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(24, Short.MAX_VALUE)
+                .addContainerGap(12, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(303, 303, 303))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addComponent(jButton1)
-                                .addContainerGap())))
+                        .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(303, 303, 303))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -550,9 +653,7 @@ public class RegisterStaff extends javax.swing.JFrame {
                         .addGap(84, 84, 84))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton1)
-                            .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -567,204 +668,279 @@ public class RegisterStaff extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        staffTab.addTab("Register Staff", jPanel1);
+
+        jPanel9.setBackground(new java.awt.Color(0, 102, 102));
+
+        txtFname.addInputMethodListener(new java.awt.event.InputMethodListener() {
+            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
+            }
+            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
+                txtFnameInputMethodTextChanged(evt);
+            }
+        });
+        txtFname.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtFnameActionPerformed(evt);
+            }
+        });
+        txtFname.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtFnameKeyPressed(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtFnameKeyTyped(evt);
+            }
+        });
+
+        jButton3.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jButton3.setText("Search");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel1.setText("First Name");
+
+        javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
+        jPanel9.setLayout(jPanel9Layout);
+        jPanel9Layout.setHorizontalGroup(
+            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel9Layout.createSequentialGroup()
+                .addGap(276, 276, 276)
+                .addComponent(jLabel1)
+                .addGap(18, 18, 18)
+                .addComponent(txtFname, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jButton3)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel9Layout.setVerticalGroup(
+            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel9Layout.createSequentialGroup()
+                .addContainerGap(24, Short.MAX_VALUE)
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtFname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton3)
+                    .addComponent(jLabel1))
+                .addGap(22, 22, 22))
+        );
+
+        tableStaff.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        tableStaff.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tableStaffMouseClicked(evt);
+            }
+        });
+        jScrollPane5.setViewportView(tableStaff);
+
+        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+        jPanel6.setLayout(jPanel6Layout);
+        jPanel6Layout.setHorizontalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 957, Short.MAX_VALUE)
+        );
+        jPanel6Layout.setVerticalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 227, Short.MAX_VALUE))
+        );
+
+        staffTab.addTab("Manage Staff", jPanel6);
+
+        jPanel11.setBackground(new java.awt.Color(0, 102, 102));
+
+        txtFname1.addInputMethodListener(new java.awt.event.InputMethodListener() {
+            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
+            }
+            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
+                txtFname1InputMethodTextChanged(evt);
+            }
+        });
+        txtFname1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtFname1ActionPerformed(evt);
+            }
+        });
+        txtFname1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtFname1KeyPressed(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtFname1KeyTyped(evt);
+            }
+        });
+
+        jButton6.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jButton6.setText("Search");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
+
+        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel2.setText("First Name");
+
+        javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
+        jPanel11.setLayout(jPanel11Layout);
+        jPanel11Layout.setHorizontalGroup(
+            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel11Layout.createSequentialGroup()
+                .addGap(275, 275, 275)
+                .addComponent(jLabel2)
+                .addGap(18, 18, 18)
+                .addComponent(txtFname1, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jButton6)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel11Layout.setVerticalGroup(
+            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel11Layout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtFname1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton6)
+                    .addComponent(jLabel2))
+                .addContainerGap(26, Short.MAX_VALUE))
+        );
+
+        tableLeaveRequest.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        tableLeaveRequest.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tableLeaveRequestMouseClicked(evt);
+            }
+        });
+        jScrollPane6.setViewportView(tableLeaveRequest);
+
+        javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
+        jPanel10.setLayout(jPanel10Layout);
+        jPanel10Layout.setHorizontalGroup(
+            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 957, Short.MAX_VALUE)
+        );
+        jPanel10Layout.setVerticalGroup(
+            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel10Layout.createSequentialGroup()
+                .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 309, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 178, Short.MAX_VALUE))
+        );
+
+        staffTab.addTab("Leave Requests", jPanel10);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addComponent(jPanel16, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addComponent(staffTab))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(staffTab)
         );
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtPhoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPhoneActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtPhoneActionPerformed
+    private void staffTableload() {
 
-    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        // TODO add your handling code here:
-        ValidateStaff vs=new ValidateStaff();
-         if(
-                 (checkIsEmpty())
-                 &&(vs.checkNICLength(txtNIC.getText()))
-                 &&(vs.checkNICCharacter(txtNIC.getText()))
-                 &&(vs.checkPhoneLength(txtPhone.getText()))
-                 &&(vs.checkPhoneLength(txtMobile.getText()))
-                 &&(vs.validateDob(dateDob.getDate()))
-                 &&(vs.validateMail(txtMail.getText()))){
+        try {
+            String sql = "select staff_Id as 'Staff ID',firstName as 'First Name',mobile as 'Contact',email as 'Email',currentAdd as 'Address'from staff_table";
+            PreparedStatement pst = DBConn.myConn().prepareStatement(sql);
+            rs = pst.executeQuery();
+            
+            DefaultTableModel tableModel = (DefaultTableModel) DbUtils.resultSetToTableModel(rs);
+             tableModel.addColumn("Update");
+             tableModel.addColumn("Delete");
+             for(int i=0;i<tableModel.getRowCount();i++){
+                 tableModel.setValueAt("Update", i, 5);
+                 tableModel.setValueAt("Delete", i, 6);
                  
-             
-         
-        staffModel st=new staffModel(txtFirstName.getText(),txtLastName.getText(),cmbGender.getSelectedItem().toString(),dateDob.getDate(),cmbReligion.getSelectedItem().toString(),txtNIC.getText(),cmbMarStatus.getSelectedItem().toString(),txtPhone.getText(),txtMobile.getText(),txtMail.getText(),txtCurAdd.getText(),txtPerAdd.getText(),txtEducational.getText(),txtProff.getText(),dateJoined.getDate(),Double.parseDouble(txtSalary.getText()),txtBank.getText(),txtAccntNo.getText());
-        boolean success=st.addStaff();
-        
-         }
-    }//GEN-LAST:event_btnAddActionPerformed
-
-    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
-        // TODO add your handling code here:
-        ValidateStaff vs=new ValidateStaff();
-         if(
-                 (checkIsEmpty())
-                 &&(vs.checkNICLength(txtNIC.getText()))
-                 &&(vs.checkNICCharacter(txtNIC.getText()))
-                 &&(vs.checkPhoneLength(txtPhone.getText()))
-                 &&(vs.checkPhoneLength(txtMobile.getText()))
-                 &&(vs.validateDob(dateDob.getDate()))
-                 &&(vs.validateMail(txtMail.getText()))){
-        staffModel st=new staffModel(txtFirstName.getText(),txtLastName.getText(),cmbGender.getSelectedItem().toString(),dateDob.getDate(),cmbReligion.getSelectedItem().toString(),txtNIC.getText(),cmbMarStatus.getSelectedItem().toString(),txtPhone.getText(),txtMobile.getText(),txtMail.getText(),txtCurAdd.getText(),txtPerAdd.getText(),txtEducational.getText(),txtProff.getText(),dateJoined.getDate(),Double.parseDouble(txtSalary.getText()),txtBank.getText(),txtAccntNo.getText());
-        st.setStaffId(lblStaff.getText());
-        boolean success=st.updateStaff();
-        
-               if(success){
-                   
-                   this.setVisible(false);
-                   this.mg.tableload();
-               }
-        
-         }
-    }//GEN-LAST:event_btnUpdateActionPerformed
-
-    private boolean checkIsEmpty(){
-        
-        if((!txtFirstName.getText().isEmpty())
-                &&(!txtLastName.getText().isEmpty())
-                &&(!txtNIC.getText().isEmpty())
-                &&(!txtSalary.getText().isEmpty())
-                &&(!txtBank.getText().isEmpty())
-                &&(!txtAccntNo.getText().isEmpty())
-                &&(!txtPhone.getText().isEmpty())
-                &&(!txtMobile.getText().isEmpty())
-                &&(!txtMail.getText().isEmpty())
-                &&(!txtCurAdd.getText().isEmpty())
-                &&(!txtPerAdd.getText().isEmpty())
-                &&(dateDob.getDate()!=null)
-                &&(dateJoined.getDate()!=null)               
-                ){
-            return true;
-        }else{
-            JOptionPane.showMessageDialog(null, "One or More fields are Empty");
-            return false;
+             }
+          //  tableStaff.setModel(DbUtils.resultSetToTableModel(rs));
+            tableStaff.setModel(tableModel);
+            
+           
+            
+        }catch (SQLException e) {
+            System.out.println(e);
+          //  return false; 
         }
-        
+        catch (Exception e) {
+            System.out.println(e);
+           
+        }
     }
-    private void txtFirstNameKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFirstNameKeyTyped
-        // TODO add your handling code here:
-        char vchar=evt.getKeyChar();
-        if(!(Character.isLetter(vchar))|| (vchar == KeyEvent.VK_BACK_SPACE)|| (vchar == KeyEvent.VK_DELETE)){
-        evt.consume();
-        }
-    }//GEN-LAST:event_txtFirstNameKeyTyped
-
-    private void txtLastNameKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtLastNameKeyPressed
-        // TODO add your handling code here
+    
+     public void leaveTableLoad(){
         
-        
-    }//GEN-LAST:event_txtLastNameKeyPressed
-
-    private void txtBankKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBankKeyPressed
-        // TODO add your handling code here:
-        
-    }//GEN-LAST:event_txtBankKeyPressed
-
-    private void txtSalaryKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSalaryKeyPressed
-        // TODO add your handling code here:
-        
-    }//GEN-LAST:event_txtSalaryKeyPressed
-
-    private void txtAccntNoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtAccntNoKeyPressed
-        // TODO add your handling code here:
-        
-    }//GEN-LAST:event_txtAccntNoKeyPressed
-
-    private void txtPhoneKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPhoneKeyPressed
-        // TODO add your handling code here:
-        
-    }//GEN-LAST:event_txtPhoneKeyPressed
-
-    private void txtMobileKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMobileKeyPressed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtMobileKeyPressed
-
-    private void txtLastNameKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtLastNameKeyTyped
-        // TODO add your handling code here:
-         char vchar=evt.getKeyChar();
-        if(!(Character.isLetter(vchar))|| (vchar == KeyEvent.VK_BACK_SPACE)|| (vchar == KeyEvent.VK_DELETE)){
-        evt.consume();
+        try {
+            String sql = "select LeaveId as 'Leave Id', staff_Id as 'Staff ID',FirstName as 'First Name',ApplyDate as 'Apply Date',Status as 'Leave Status'from EmpLeaveRequest";
+            PreparedStatement pst = DBConn.myConn().prepareStatement(sql);
+            rs = pst.executeQuery();
+            
+            
+           tableLeaveRequest.setModel(DbUtils.resultSetToTableModel(rs));
+          //  tableLeaveRequest.setModel(tableModel);
+            
+          //  return true;
+            
+        } catch (SQLException e) {
+            System.out.println(e);
+          //  return false;
+        }catch (Exception e) {
+            System.out.println(e);
+          //  return false;
         }
-        
-    }//GEN-LAST:event_txtLastNameKeyTyped
-
-    private void txtBankKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBankKeyTyped
-        // TODO add your handling code here:
-         char vchar=evt.getKeyChar();
-        if(!(Character.isLetter(vchar))|| (vchar == KeyEvent.VK_BACK_SPACE)|| (vchar == KeyEvent.VK_DELETE)){
-        evt.consume();
-        }
-    }//GEN-LAST:event_txtBankKeyTyped
-
-    private void txtSalaryKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSalaryKeyTyped
-        // TODO add your handling code here
-         char vchar=evt.getKeyChar();
-        if(!(Character.isDigit(vchar))|| (vchar == KeyEvent.VK_BACK_SPACE)|| (vchar == KeyEvent.VK_DELETE)){
-        evt.consume();
-        }
-    }//GEN-LAST:event_txtSalaryKeyTyped
-
-    private void txtAccntNoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtAccntNoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtAccntNoActionPerformed
-
-    private void txtAccntNoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtAccntNoKeyTyped
-        // TODO add your handling code here:
-        char vchar=evt.getKeyChar();
-        if(!(Character.isDigit(vchar))|| (vchar == KeyEvent.VK_BACK_SPACE)|| (vchar == KeyEvent.VK_DELETE)){
-        evt.consume();
-        }
-    }//GEN-LAST:event_txtAccntNoKeyTyped
-
-    private void txtPhoneKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPhoneKeyTyped
-        // TODO add your handling code here
-        char vchar=evt.getKeyChar();
-        if(!(Character.isDigit(vchar))|| (vchar == KeyEvent.VK_BACK_SPACE)|| (vchar == KeyEvent.VK_DELETE)){
-        evt.consume();
-        }
-    }//GEN-LAST:event_txtPhoneKeyTyped
-
-    private void txtMobileKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMobileKeyTyped
-        // TODO add your handling code here:
-        char vchar=evt.getKeyChar();
-        if(!(Character.isDigit(vchar))|| (vchar == KeyEvent.VK_BACK_SPACE)|| (vchar == KeyEvent.VK_DELETE)){
-        evt.consume();
-        }
-    }//GEN-LAST:event_txtMobileKeyTyped
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-        this.setVisible(false);
-    }//GEN-LAST:event_jButton1ActionPerformed
-
-    public void setData(int staffId,ManageStaff mg){
+    }
+     
+        public void setData(int staffId){
         
         btnUpdate.setVisible(true);
         btnAdd.setVisible(false);
         lblStaffId.setVisible(true);
         lblStaff.setVisible(true);
-        this.mg=mg;
+        
         SimpleDateFormat df = new SimpleDateFormat("EEEE dd/MM/yyyy");
         staffModel st=new staffModel();
         try{
-            ResultSet rs=st.selectStaff(staffId);
-            
-            
-        
+             rs=st.selectStaff(staffId);
+                               
             while(rs.next()){
                 Date dobDate = df.parse(df.format(rs.getDate("dateOfBirth")));
                 Date joinDate = df.parse(df.format(rs.getDate("joinedDate")));
@@ -790,14 +966,328 @@ public class RegisterStaff extends javax.swing.JFrame {
                                                                
             }
         } catch (SQLException ex) {
-            Logger.getLogger(RegisterStaff.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println(ex);
+            Logger.getLogger(StaffAdmin.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ParseException ex) {
-            Logger.getLogger(RegisterStaff.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println(ex);
+            Logger.getLogger(StaffAdmin.class.getName()).log(Level.SEVERE, null, ex);
         }
         catch (Exception ex) {
-            Logger.getLogger(RegisterStaff.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println(ex);
+            Logger.getLogger(StaffAdmin.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    } 
+    private boolean checkIsEmpty(){
+        
+        if((!txtFirstName.getText().isEmpty())
+                &&(!txtLastName.getText().isEmpty())
+                &&(!txtNIC.getText().isEmpty())
+                &&(!txtSalary.getText().isEmpty())
+                &&(!txtBank.getText().isEmpty())
+                &&(!txtAccntNo.getText().isEmpty())
+                &&(!txtPhone.getText().isEmpty())
+                &&(!txtMobile.getText().isEmpty())
+                &&(!txtMail.getText().isEmpty())
+                &&(!txtCurAdd.getText().isEmpty())
+                &&(!txtPerAdd.getText().isEmpty())
+                &&(dateDob.getDate()!=null)
+                &&(dateJoined.getDate()!=null)               
+                ){
+            return true;
+        }else{
+            JOptionPane.showMessageDialog(null, "One or More fields are Empty");
+            return false;
+        }
+        
+    }
+    
+    private void searchByStaffName(){
+        
+        try{
+            staffModel st=new staffModel();
+            rs=st.searchStaffByFname(txtFname.getText());
+            
+            DefaultTableModel tableModel = (DefaultTableModel) DbUtils.resultSetToTableModel(rs);
+         //   System.out.println(tableModel.getRowCount());
+            
+            if(tableModel.getRowCount()>0){
+             tableModel.addColumn("Update");
+             tableModel.addColumn("Delete");
+             for(int i=0;i<tableModel.getRowCount();i++){
+                 tableModel.setValueAt("Update", i, 5);
+                 tableModel.setValueAt("Delete", i, 6);
+                 
+             }
+          //  tableStaff.setModel(DbUtils.resultSetToTableModel(rs));
+            tableStaff.setModel(tableModel);
+            }
+            
+        }
+        catch(NumberFormatException | HeadlessException ex){
+            
+            System.out.println(ex);
+            
+        }        
+        catch(Exception ex){
+            
+            System.out.println(ex);
+            
         }
     }
+    
+    private void searchByLeaveStaffName(){
+        
+        try{
+            ApplyLeaveModel al=new ApplyLeaveModel();
+            rs=al.searchStaffByFname(txtFname1.getText());
+            
+          //  DefaultTableModel tableModel = (DefaultTableModel) DbUtils.resultSetToTableModel(rs);
+          //  System.out.println(tableModel.getRowCount());
+                      
+            tableLeaveRequest.setModel(DbUtils.resultSetToTableModel(rs));
+            
+        }
+        catch(NumberFormatException | HeadlessException ex){
+            
+            System.out.println(ex);
+        }
+        catch(Exception ex){
+            
+            System.out.println(ex);
+        }
+    }
+    private void txtFirstNameKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFirstNameKeyTyped
+        // TODO add your handling code here:
+        char vchar=evt.getKeyChar();
+        if(!(Character.isLetter(vchar))|| (vchar == KeyEvent.VK_BACK_SPACE)|| (vchar == KeyEvent.VK_DELETE)){
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtFirstNameKeyTyped
+
+    private void txtLastNameKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtLastNameKeyPressed
+        // TODO add your handling code here
+
+    }//GEN-LAST:event_txtLastNameKeyPressed
+
+    private void txtLastNameKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtLastNameKeyTyped
+        // TODO add your handling code here:
+        char vchar=evt.getKeyChar();
+        if(!(Character.isLetter(vchar))|| (vchar == KeyEvent.VK_BACK_SPACE)|| (vchar == KeyEvent.VK_DELETE)){
+            evt.consume();
+        }
+
+    }//GEN-LAST:event_txtLastNameKeyTyped
+
+    private void txtSalaryKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSalaryKeyPressed
+        // TODO add your handling code here:
+
+    }//GEN-LAST:event_txtSalaryKeyPressed
+
+    private void txtSalaryKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSalaryKeyTyped
+        // TODO add your handling code here
+        char vchar=evt.getKeyChar();
+        if(!(Character.isDigit(vchar))|| (vchar == KeyEvent.VK_BACK_SPACE)|| (vchar == KeyEvent.VK_DELETE)){
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtSalaryKeyTyped
+
+    private void txtBankKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBankKeyPressed
+        // TODO add your handling code here:
+
+    }//GEN-LAST:event_txtBankKeyPressed
+
+    private void txtBankKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBankKeyTyped
+        // TODO add your handling code here:
+        char vchar=evt.getKeyChar();
+        if(!(Character.isLetter(vchar))|| (vchar == KeyEvent.VK_BACK_SPACE)|| (vchar == KeyEvent.VK_DELETE)){
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtBankKeyTyped
+
+    private void txtAccntNoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtAccntNoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtAccntNoActionPerformed
+
+    private void txtAccntNoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtAccntNoKeyPressed
+        // TODO add your handling code here:
+
+    }//GEN-LAST:event_txtAccntNoKeyPressed
+
+    private void txtAccntNoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtAccntNoKeyTyped
+        // TODO add your handling code here:
+        char vchar=evt.getKeyChar();
+        if(!(Character.isDigit(vchar))|| (vchar == KeyEvent.VK_BACK_SPACE)|| (vchar == KeyEvent.VK_DELETE)){
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtAccntNoKeyTyped
+
+    private void txtPhoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPhoneActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtPhoneActionPerformed
+
+    private void txtPhoneKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPhoneKeyPressed
+        // TODO add your handling code here:
+
+    }//GEN-LAST:event_txtPhoneKeyPressed
+
+    private void txtPhoneKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPhoneKeyTyped
+        // TODO add your handling code here
+        char vchar=evt.getKeyChar();
+        if(!(Character.isDigit(vchar))|| (vchar == KeyEvent.VK_BACK_SPACE)|| (vchar == KeyEvent.VK_DELETE)){
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtPhoneKeyTyped
+
+    private void txtMobileKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMobileKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtMobileKeyPressed
+
+    private void txtMobileKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMobileKeyTyped
+        // TODO add your handling code here:
+        char vchar=evt.getKeyChar();
+        if(!(Character.isDigit(vchar))|| (vchar == KeyEvent.VK_BACK_SPACE)|| (vchar == KeyEvent.VK_DELETE)){
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtMobileKeyTyped
+
+    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+        // TODO add your handling code here:
+        ValidateStaff vs=new ValidateStaff();
+        if(
+            (checkIsEmpty())
+            &&(vs.checkNICLength(txtNIC.getText()))
+            &&(vs.checkNICCharacter(txtNIC.getText()))
+            &&(vs.checkPhoneLength(txtPhone.getText()))
+            &&(vs.checkPhoneLength(txtMobile.getText()))
+            &&(vs.validateDob(dateDob.getDate()))
+            &&(vs.validateMail(txtMail.getText()))){
+
+            staffModel st=new staffModel(txtFirstName.getText(),txtLastName.getText(),cmbGender.getSelectedItem().toString(),dateDob.getDate(),cmbReligion.getSelectedItem().toString(),txtNIC.getText(),cmbMarStatus.getSelectedItem().toString(),txtPhone.getText(),txtMobile.getText(),txtMail.getText(),txtCurAdd.getText(),txtPerAdd.getText(),txtEducational.getText(),txtProff.getText(),dateJoined.getDate(),Double.parseDouble(txtSalary.getText()),txtBank.getText(),txtAccntNo.getText());
+            boolean success=st.addStaff();
+
+        }
+    }//GEN-LAST:event_btnAddActionPerformed
+
+    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+        // TODO add your handling code here:
+        ValidateStaff vs=new ValidateStaff();
+        if(
+            (checkIsEmpty())
+            &&(vs.checkNICLength(txtNIC.getText()))
+            &&(vs.checkNICCharacter(txtNIC.getText()))
+            &&(vs.checkPhoneLength(txtPhone.getText()))
+            &&(vs.checkPhoneLength(txtMobile.getText()))
+            &&(vs.validateDob(dateDob.getDate()))
+            &&(vs.validateMail(txtMail.getText()))){
+            staffModel st=new staffModel(txtFirstName.getText(),txtLastName.getText(),cmbGender.getSelectedItem().toString(),dateDob.getDate(),cmbReligion.getSelectedItem().toString(),txtNIC.getText(),cmbMarStatus.getSelectedItem().toString(),txtPhone.getText(),txtMobile.getText(),txtMail.getText(),txtCurAdd.getText(),txtPerAdd.getText(),txtEducational.getText(),txtProff.getText(),dateJoined.getDate(),Double.parseDouble(txtSalary.getText()),txtBank.getText(),txtAccntNo.getText());
+            st.setStaffId(lblStaff.getText());
+            boolean success=st.updateStaff();
+
+            if(success){             
+                this.staffTableload();
+                staffTab.setSelectedIndex(1);
+            }
+
+        }
+    }//GEN-LAST:event_btnUpdateActionPerformed
+
+    private void txtFnameInputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_txtFnameInputMethodTextChanged
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtFnameInputMethodTextChanged
+
+    private void txtFnameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFnameActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtFnameActionPerformed
+
+    private void txtFnameKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFnameKeyPressed
+        // TODO add your handling code here:
+        //searchByName();
+    }//GEN-LAST:event_txtFnameKeyPressed
+
+    private void txtFnameKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFnameKeyTyped
+        // TODO add your handling code here:
+        searchByStaffName();
+    }//GEN-LAST:event_txtFnameKeyTyped
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        searchByStaffName();
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void tableStaffMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableStaffMouseClicked
+        // TODO add your handling code here:
+        int row = tableStaff.rowAtPoint(evt.getPoint());
+        int col = tableStaff.columnAtPoint(evt.getPoint());
+
+        if(col==5){
+
+            int response=JOptionPane.showConfirmDialog(null,"Do you really want to Update the selected Staff?");
+            if(response == 0){
+
+                staffTab.setSelectedIndex(0);
+                this.setData(Integer.parseInt(tableStaff.getValueAt(row, 0).toString()));
+               
+
+            }
+        }
+        else if(col==6){
+
+            int response=JOptionPane.showConfirmDialog(null,"Do you really want to Delete the selected Staff?");
+            if(response == 0){
+
+                staffModel sm=new staffModel();
+                sm.setStaffId(tableStaff.getValueAt(row,0).toString());
+                sm.deleteStaff();
+                this.staffTableload();
+                        
+            }
+
+        }
+
+    }//GEN-LAST:event_tableStaffMouseClicked
+
+    private void txtFname1InputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_txtFname1InputMethodTextChanged
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtFname1InputMethodTextChanged
+
+    private void txtFname1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFname1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtFname1ActionPerformed
+
+    private void txtFname1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFname1KeyPressed
+        // TODO add your handling code here:
+        //searchByName();
+    }//GEN-LAST:event_txtFname1KeyPressed
+
+    private void txtFname1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFname1KeyTyped
+        // TODO add your handling code here:
+        
+        searchByLeaveStaffName();
+    }//GEN-LAST:event_txtFname1KeyTyped
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        // TODO add your handling code here:
+        searchByLeaveStaffName();
+    }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void tableLeaveRequestMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableLeaveRequestMouseClicked
+        // TODO add your handling code here:
+        int row = tableLeaveRequest.rowAtPoint(evt.getPoint());
+        int col = tableLeaveRequest.columnAtPoint(evt.getPoint());
+
+        if(col==4){
+
+            int id=Integer.parseInt(tableLeaveRequest.getValueAt(row,0).toString());
+            LeaveDetails ld=new LeaveDetails(id,this);
+            ld.setVisible(true);
+        }
+    }//GEN-LAST:event_tableLeaveRequestMouseClicked
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -815,23 +1305,20 @@ public class RegisterStaff extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(RegisterStaff.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(StaffAdmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(RegisterStaff.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(StaffAdmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(RegisterStaff.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(StaffAdmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(RegisterStaff.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(StaffAdmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new RegisterStaff().setVisible(true);
+                new StaffAdmin().setVisible(true);
             }
         });
     }
@@ -845,17 +1332,31 @@ public class RegisterStaff extends javax.swing.JFrame {
     private org.jdesktop.swingx.JXDatePicker dateDob;
     private org.jdesktop.swingx.JXDatePicker dateJoined;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton6;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel36;
+    private javax.swing.JLabel jLabel39;
+    private javax.swing.JLabel jLabel40;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel10;
+    private javax.swing.JPanel jPanel11;
+    private javax.swing.JPanel jPanel16;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
+    private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JLabel lblAccntNo;
     private javax.swing.JLabel lblBank;
     private javax.swing.JLabel lblBirthDate;
@@ -877,11 +1378,18 @@ public class RegisterStaff extends javax.swing.JFrame {
     private javax.swing.JLabel lblStaff;
     private javax.swing.JLabel lblStaffId;
     private javax.swing.JLabel lblStaffIdTxt;
+    private javax.swing.JLabel lbldate;
+    private javax.swing.JLabel lbltime;
+    private javax.swing.JTabbedPane staffTab;
+    private javax.swing.JTable tableLeaveRequest;
+    private javax.swing.JTable tableStaff;
     private javax.swing.JTextField txtAccntNo;
     private javax.swing.JTextField txtBank;
     private javax.swing.JTextArea txtCurAdd;
     private javax.swing.JTextArea txtEducational;
     private javax.swing.JTextField txtFirstName;
+    private javax.swing.JTextField txtFname;
+    private javax.swing.JTextField txtFname1;
     private javax.swing.JTextField txtLastName;
     private javax.swing.JTextField txtMail;
     private javax.swing.JTextField txtMobile;
