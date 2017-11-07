@@ -27,7 +27,7 @@ public class DBConn {
          */
         String databaseURL = "jdbc:mysql://localhost:3306/school_management";
         String user = "root";
-        String password = "ashif";
+        String password = "";
         Connection conn = null;
 
         try {
