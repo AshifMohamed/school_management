@@ -129,6 +129,7 @@ public class StaffAdmin extends javax.swing.JFrame {
         jPanel8 = new javax.swing.JPanel();
         btnAdd = new javax.swing.JButton();
         btnUpdate = new javax.swing.JButton();
+        btnAdd1 = new javax.swing.JButton();
         jPanel6 = new javax.swing.JPanel();
         jPanel9 = new javax.swing.JPanel();
         txtFname = new javax.swing.JTextField();
@@ -583,6 +584,7 @@ public class StaffAdmin extends javax.swing.JFrame {
         );
 
         btnAdd.setBackground(new java.awt.Color(0, 102, 102));
+        btnAdd.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         btnAdd.setText("ADD");
         btnAdd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -591,10 +593,20 @@ public class StaffAdmin extends javax.swing.JFrame {
         });
 
         btnUpdate.setBackground(new java.awt.Color(0, 102, 102));
+        btnUpdate.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         btnUpdate.setText("UPDATE");
         btnUpdate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnUpdateActionPerformed(evt);
+            }
+        });
+
+        btnAdd1.setBackground(new java.awt.Color(0, 102, 102));
+        btnAdd1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        btnAdd1.setText("CLEAR");
+        btnAdd1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAdd1ActionPerformed(evt);
             }
         });
 
@@ -605,9 +617,11 @@ public class StaffAdmin extends javax.swing.JFrame {
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(42, 42, 42)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(76, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnAdd1, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(18, Short.MAX_VALUE))
         );
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -615,7 +629,8 @@ public class StaffAdmin extends javax.swing.JFrame {
                 .addGap(25, 25, 25)
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAdd, javax.swing.GroupLayout.DEFAULT_SIZE, 45, Short.MAX_VALUE)
-                    .addComponent(btnUpdate, javax.swing.GroupLayout.DEFAULT_SIZE, 45, Short.MAX_VALUE))
+                    .addComponent(btnUpdate, javax.swing.GroupLayout.DEFAULT_SIZE, 45, Short.MAX_VALUE)
+                    .addComponent(btnAdd1, javax.swing.GroupLayout.DEFAULT_SIZE, 45, Short.MAX_VALUE))
                 .addGap(25, 25, 25))
         );
 
@@ -629,8 +644,7 @@ public class StaffAdmin extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(303, 303, 303))
+                        .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -640,8 +654,8 @@ public class StaffAdmin extends javax.swing.JFrame {
                             .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                                 .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(60, 60, 60)))
-                        .addContainerGap())))
+                                .addGap(60, 60, 60)))))
+                .addGap(16, 16, 16))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1000,6 +1014,23 @@ public class StaffAdmin extends javax.swing.JFrame {
         }
         
     }
+    private void clearAll(){
+        
+        txtFirstName.setText(null);
+        txtLastName.setText(null);
+        txtNIC.setText(null);        
+        txtSalary.setText(null);        
+        txtBank.setText(null);       
+        txtAccntNo.setText(null);        
+        txtPhone.setText(null);        
+        txtMobile.setText(null);
+        txtMail.setText(null);        
+        txtCurAdd.setText(null);        
+        txtPerAdd.setText(null);
+        dateDob.setDate(null);
+        dateJoined.setDate(null);
+                
+    }
     
     private void searchByStaffName(){
         
@@ -1186,6 +1217,9 @@ public class StaffAdmin extends javax.swing.JFrame {
             if(success){             
                 this.staffTableload();
                 staffTab.setSelectedIndex(1);
+                clearAll();
+                btnAdd.setVisible(true);
+                btnUpdate.setVisible(false);
             }
 
         }
@@ -1288,6 +1322,11 @@ public class StaffAdmin extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void btnAdd1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdd1ActionPerformed
+        // TODO add your handling code here:
+        clearAll();
+    }//GEN-LAST:event_btnAdd1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1325,6 +1364,7 @@ public class StaffAdmin extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
+    private javax.swing.JButton btnAdd1;
     private javax.swing.JButton btnUpdate;
     private javax.swing.JComboBox cmbGender;
     private javax.swing.JComboBox cmbMarStatus;
